@@ -35,6 +35,11 @@ void SynthVoice::pitchWheelMoved(int newPitchWheelValue)
 
 }
 
+void prepareToPlay(double sampleRate, int samplesPerBlock)
+{
+
+}
+
 void SynthVoice::renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int startSample, int numSamples)
 {
 

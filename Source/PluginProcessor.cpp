@@ -96,6 +96,14 @@ void BasssynthAudioProcessor::changeProgramName (int index, const juce::String& 
 void BasssynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     synth.setCurrentPlaybackSampleRate(sampleRate);
+
+    for (int i = 0; i < synth.getNumVoices(); i++)
+    {
+        if (auto voice = dynamic_cast<SynthVoice*>(synth.getVoice(i)))
+        {
+          //Voice->prepareToPlay(sampleRate, samplesPerBlock);
+        }
+    }
 }
 
 void BasssynthAudioProcessor::releaseResources()

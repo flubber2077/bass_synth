@@ -21,7 +21,14 @@ public:
 	void stopNote(float velocity, bool allowTailOff) override;
 	void controllerMoved(int controllerNumber, int newControllerValue) override;
 	void pitchWheelMoved(int newPitchWheelValue) override;
+	void prepareToPlay(double sampleRate, int samplesPerBlock);
 	void renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int startSample, int numSamples) override;
 	 
 private:
+	juce::ADSR adsr;
+	juce::ADSR::Parameters adsrParameters;
+
+	//implement an oscillator here i suppose. guess ill write an oscillator. sucks.
+
+
 }; 
