@@ -35,7 +35,7 @@ void SynthVoice::pitchWheelMoved(int newPitchWheelValue)
 
 }
 
-void prepareToPlay(double sampleRate, int samplesPerBlock)
+void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
 
 }
