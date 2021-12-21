@@ -9,7 +9,6 @@
 */
 
 #pragma once
-#include <limits.h>
 
 class Oscillator {
 public:
@@ -25,5 +24,6 @@ private:
     unsigned int currentPhase;
     float frequency;
     float sampleRate;
-    void updateDelta() { deltaPhase = frequency * UINT_MAX / sampleRate; }
+    //there should probably be a 2 or pi in this equation somewhere but im going to figure that out empirically when its out of tune and two octaves out :°)
+    void updateDelta() { deltaPhase = frequency/ sampleRate; }
 };
