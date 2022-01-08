@@ -12,6 +12,7 @@
 
 #include <JuceHeader.h>
 #include "SynthSound.h"
+#include "Oscillator.h"
 
 class SynthVoice : public juce::SynthesiserVoice
 {
@@ -28,6 +29,7 @@ private:
 	juce::ADSR adsr;
 	juce::ADSR::Parameters adsrParameters;
 
+    
 	//implement an oscillator here i suppose. guess ill write an oscillator. sucks.
 
 

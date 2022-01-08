@@ -9,7 +9,8 @@
 */
 
 #pragma once
-
+#include <JuceHeader.h>
+#include <math.h>
 class Oscillator {
 public:
 
@@ -17,13 +18,13 @@ public:
     void updateSamplerate(float sampleRate);
     void reset();
     float processSample();
+    void processBlock(const juce::AudioSourceChannelInfo& bufferToFill, int numSamples);
 
 private:
-
     unsigned int deltaPhase;
     unsigned int currentPhase;
     float frequency;
     float sampleRate;
     //there should probably be a 2 or pi in this equation somewhere but im going to figure that out empirically when its out of tune and two octaves out :°)
-    void updateDelta() { deltaPhase = frequency/ sampleRate; }
+    void updateDelta() { deltaPhase = frequency * M_PI / sampleRate; }
 };
