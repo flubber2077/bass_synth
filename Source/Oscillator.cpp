@@ -44,13 +44,15 @@ float Oscillator::processSample()
     return 20.784f * currentPhase * (currentPhase - .5f) * (currentPhase - 1.0f);
 }
 
-void Oscillator::processBlock(juce::AudioBuffer< float >& buffer, int numSamples)
+void Oscillator::processBlock(juce::AudioBuffer< float >& buffer)
 {
     
-    float* bufferPointer = buffer.getWritePointer(1);
-    for (int sample = 0; sample< numSamples; sample++)
+    float* bufferPointerL = buffer.getWritePointer(0);
+    float* bufferPointerR = buffer.getWritePointer(1);
+    for (int sample = 0; sample< buffer.getNumSamples(); sample++)
     {
         
-        bufferPointer[sample] = processSample();
+        bufferPointerL[sample] = processSample();
+        bufferPointerR[sample] = bufferPointerL[sample];
     }
 }

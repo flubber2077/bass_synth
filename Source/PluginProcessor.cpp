@@ -160,6 +160,13 @@ void BasssynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     // Alternatively, you can process the samples with the channels
     // interleaved by keeping the same state.
 
+    for (int channel = 0; channel < totalNumInputChannels; ++channel)
+    {
+        auto* channelData = buffer.getWritePointer (channel);
+
+        // ..do something to the data...
+    }
+
     for (int i = 0; i < synth.getNumVoices(); i++)
     {
         if (auto voice = dynamic_cast<juce::SynthesiserVoice*>(synth.getVoice(i)))
@@ -167,16 +174,9 @@ void BasssynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
             //controls
         }
 
-        synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     }
+
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
-
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto* channelData = buffer.getWritePointer (channel);
-
-        // ..do something to the data...
-    }
 }
 
 //==============================================================================

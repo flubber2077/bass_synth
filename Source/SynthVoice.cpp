@@ -45,8 +45,7 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock)
 
 void SynthVoice::renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int startSample, int numSamples)
 {
-    juce::dsp::AudioBlock<float> audioBlock{ outputBuffer };
-    osc.processBlock(outputBuffer, numSamples);
+    osc.processBlock(outputBuffer);
     adsr.applyEnvelopeToBuffer(outputBuffer, startSample, numSamples);
 }
  
