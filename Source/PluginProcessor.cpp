@@ -167,6 +167,7 @@ void BasssynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
             //controls
         }
 
+        synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     }
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 

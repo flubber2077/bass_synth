@@ -17,12 +17,13 @@ bool SynthVoice::canPlaySound(juce::SynthesiserSound* sound)
 
 void SynthVoice::startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound, int currentPitchWheelPosition)
 {
-
+    osc.updateFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber));
+    adsr.noteOn();
 }
 
 void SynthVoice::stopNote(float velocity, bool allowTailOff)
 {
-
+    adsr.noteOff();
 }
 
 void SynthVoice::controllerMoved(int controllerNumber, int newControllerValue)
@@ -37,11 +38,15 @@ void SynthVoice::pitchWheelMoved(int newPitchWheelValue)
 
 void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
-    
+    osc.reset();
+    adsr.setSampleRate(sampleRate);
+    osc.updateSamplerate(sampleRate);
 }
 
 void SynthVoice::renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int startSample, int numSamples)
 {
-    
+    juce::dsp::AudioBlock<float> audioBlock{ outputBuffer };
+    osc.processBlock(outputBuffer, numSamples);
+    adsr.applyEnvelopeToBuffer(outputBuffer, startSample, numSamples);
 }
  

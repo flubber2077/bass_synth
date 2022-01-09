@@ -29,8 +29,6 @@ private:
 	juce::ADSR adsr;
 	juce::ADSR::Parameters adsrParameters;
 
-    
-	//implement an oscillator here i suppose. guess ill write an oscillator. sucks.
-
+	Oscillator osc;
 
 }; 
