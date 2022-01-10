@@ -41,11 +41,13 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock)
     osc.reset();
     adsr.setSampleRate(sampleRate);
     osc.updateSamplerate(sampleRate);
+    adsr.setParameters(adsrParameters);
 }
 
 void SynthVoice::renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int startSample, int numSamples)
 {
     osc.processBlock(outputBuffer);
     adsr.applyEnvelopeToBuffer(outputBuffer, startSample, numSamples);
+    outputBuffer.applyGain(startSample, numSamples, .2f);
 }
  
