@@ -28,6 +28,7 @@ public:
 private:
 	juce::ADSR adsr;
 	juce::ADSR::Parameters adsrParameters;
+	juce::AudioBuffer<float> synthBuffer;
 
 	Oscillator osc;
 
