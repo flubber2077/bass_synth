@@ -25,7 +25,7 @@ void SynthVoice::stopNote(float velocity, bool allowTailOff)
 {
     adsr.noteOff();
 
-    if (!allowTailOff || !adsr.isActive())
+    if (! allowTailOff || ! adsr.isActive())
     {
         clearCurrentNote();
     }
@@ -56,18 +56,20 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int s
         return;
     }
     //the set size and addfrom in this function make the plugin functionally monophonic
-    synthBuffer.setSize(1, numSamples, false, false, true);
+    synthBuffer.setSize(outputBuffer.getNumChannels(), numSamples, false, false, true);
+
+
     synthBuffer.clear();
 
     osc.processBlock(synthBuffer);
-    adsr.applyEnvelopeToBuffer(synthBuffer, startSample, numSamples);
-    synthBuffer.applyGain(startSample, numSamples, .2f);
+    adsr.applyEnvelopeToBuffer(synthBuffer, 0, synthBuffer.getNumSamples());
+    synthBuffer.applyGain(0, synthBuffer.getNumSamples(), .2f);
 
     for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel)
     {
-        outputBuffer.addFrom(channel, startSample, synthBuffer, 1, 0, numSamples);
+        outputBuffer.addFrom(channel, startSample, synthBuffer, channel, 0 , numSamples);
 
-        if (!adsr.isActive())
+        if (! adsr.isActive())
         {
             clearCurrentNote();
         }
