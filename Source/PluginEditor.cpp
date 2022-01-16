@@ -16,6 +16,9 @@ BasssynthAudioProcessorEditor::BasssynthAudioProcessorEditor (BasssynthAudioProc
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setSize (400, 300);
+
+    //GUI sliders are attached to the processor here 
+    attackAttachment = std::make_unique<SliderAttachment>(audioProcessor.apvts, "ATTACK", attackSlider);
 }
 
 BasssynthAudioProcessorEditor::~BasssynthAudioProcessorEditor()

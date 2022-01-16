@@ -19,7 +19,7 @@ BasssynthAudioProcessor::BasssynthAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ), apvts (*this, nullptr, "Parameters", createParams())
 #endif
 {
    synth.addSound(new SynthSound());
@@ -209,4 +209,12 @@ void BasssynthAudioProcessor::setStateInformation (const void* data, int sizeInB
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new BasssynthAudioProcessor();
+}
+
+juce::AudioProcessorValueTreeState::ParameterLayout BasssynthAudioProcessor::createParams()
+{
+    std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
+
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", juce::NormalisableRange<float> { 0.1f, 1.0f, }, 0.1f));
+        return { params.begin(), params.end() };
 }
