@@ -23,6 +23,7 @@ public:
 	void controllerMoved(int controllerNumber, int newControllerValue) override;
 	void pitchWheelMoved(int newPitchWheelValue) override;
 	void prepareToPlay(double sampleRate, int samplesPerBlock);
+	void updateADSR(const float attack);
 	void renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int startSample, int numSamples) override;
 	 
 private:

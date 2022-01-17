@@ -25,12 +25,16 @@ public:
     void resized() override;
 
 private:
+
+    void setSliderParams(juce::Slider& slider);
+
     juce::Slider attackSlider;
-    BasssynthAudioProcessor& audioProcessor;
 
     using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
 
     std::unique_ptr<SliderAttachment> attackAttachment;
 
+
+    BasssynthAudioProcessor& audioProcessor;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BasssynthAudioProcessorEditor)
 };

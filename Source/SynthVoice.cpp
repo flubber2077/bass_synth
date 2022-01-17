@@ -49,6 +49,12 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock)
     adsr.setParameters(adsrParameters);
 }
 
+void SynthVoice::updateADSR(const float attack)
+{
+    adsrParameters.attack = attack;
+
+}
+
 void SynthVoice::renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int startSample, int numSamples)
 {
     if (!isVoiceActive())
