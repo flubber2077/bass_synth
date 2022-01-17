@@ -13,6 +13,7 @@
 #include <JuceHeader.h>
 #include "SynthSound.h"
 #include "Oscillator.h"
+#include "ADSRdata.h"
 
 class SynthVoice : public juce::SynthesiserVoice
 {
@@ -27,8 +28,7 @@ public:
 	void renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int startSample, int numSamples) override;
 	 
 private:
-	juce::ADSR adsr;
-	juce::ADSR::Parameters adsrParameters;
+	adsrData adsr;
 	juce::AudioBuffer<float> synthBuffer;
 
 	Oscillator osc;
