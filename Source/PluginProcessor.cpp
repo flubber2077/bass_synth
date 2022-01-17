@@ -19,7 +19,7 @@ BasssynthAudioProcessor::BasssynthAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ), apvts (*this, nullptr, "Parameters", createParams())
 #endif
 {
    synth.addSound(new SynthSound());
@@ -153,12 +153,16 @@ void BasssynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
-    // Make sure to reset the state if your inner loop is processing
-    // the samples and the outer loop is handling the channels.
-    // Alternatively, you can process the samples with the channels
-    // interleaved by keeping the same state.
+    for (int i = 0; i < synth.getNumVoices(); i++)
+    {
+        if (auto voice = dynamic_cast<SynthVoice*>(synth.getVoice(i)))
+        {
+            auto& attack = *apvts.getRawParameterValue("ATTACK");
+
+            voice->updateADSR(attack.load());
+        }
+    }
+
 
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
@@ -209,4 +213,12 @@ void BasssynthAudioProcessor::setStateInformation (const void* data, int sizeInB
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new BasssynthAudioProcessor();
+}
+
+juce::AudioProcessorValueTreeState::ParameterLayout BasssynthAudioProcessor::createParams()
+{
+    std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
+
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", juce::NormalisableRange<float> { 0.001f, 1.0f, 0.001f, 0.5f }, 0.1f));
+        return { params.begin(), params.end() };
 }

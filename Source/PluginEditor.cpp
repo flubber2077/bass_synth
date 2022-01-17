@@ -16,6 +16,12 @@ BasssynthAudioProcessorEditor::BasssynthAudioProcessorEditor (BasssynthAudioProc
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setSize (400, 300);
+
+    //GUI sliders are attached to the processor here
+
+    attackAttachment = std::make_unique<SliderAttachment>(audioProcessor.apvts, "ATTACK", attackSlider);
+
+    setSliderParams(attackSlider);
 }
 
 BasssynthAudioProcessorEditor::~BasssynthAudioProcessorEditor()
@@ -30,11 +36,25 @@ void BasssynthAudioProcessorEditor::paint (juce::Graphics& g)
 
     g.setColour (juce::Colours::white);
     g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
+    g.drawFittedText ("gnarly", getLocalBounds(), juce::Justification::centred, 1);
 }
 
 void BasssynthAudioProcessorEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
+    auto bounds = getLocalBounds().reduced(10);
+    auto padding = 10;
+    auto numSliders = 1;
+    auto sliderWidth = bounds.getWidth() / numSliders - padding;
+    auto sliderHeight = bounds.getHeight() - padding;
+    auto sliderStartX = 0;
+    auto sliderStartY = bounds.getHeight() / 2 - (sliderHeight / 2);
+
+    attackSlider.setBounds(sliderStartX, sliderStartY, sliderWidth, sliderHeight);
+}
+
+void BasssynthAudioProcessorEditor::setSliderParams(juce::Slider& slider)
+{
+    slider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
+    slider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 25);
+    addAndMakeVisible(slider);
 }
