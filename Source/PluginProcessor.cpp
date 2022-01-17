@@ -159,7 +159,7 @@ void BasssynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
         {
             auto& attack = *apvts.getRawParameterValue("ATTACK");
 
-            voice->updateADSR(attack);
+            voice->updateADSR(attack.load());
         }
     }
 
@@ -219,6 +219,6 @@ juce::AudioProcessorValueTreeState::ParameterLayout BasssynthAudioProcessor::cre
 {
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
 
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", juce::NormalisableRange<float> { 0.1f, 1.0f, }, 0.1f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", juce::NormalisableRange<float> { 0.001f, 1.0f, 0.001f, 0.5f }, 0.1f));
         return { params.begin(), params.end() };
 }
