@@ -9,3 +9,13 @@
 */
 
 #pragma once
+#include <JuceHeader.h>
+
+class adsrData : public juce::ADSR
+{
+public:
+    void updateADSR(float attack);
+
+private:
+    juce::ADSR::Parameters adsrParameters;
+};

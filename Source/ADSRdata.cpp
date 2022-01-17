@@ -9,3 +9,9 @@
 */
 
 #include "ADSRdata.h"
+
+void adsrData::updateADSR(float attack)
+{
+    adsrParameters.attack = attack;
+    setParameters(adsrParameters);
+}
