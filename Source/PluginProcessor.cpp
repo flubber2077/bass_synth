@@ -158,8 +158,12 @@ void BasssynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
         if (auto voice = dynamic_cast<SynthVoice*>(synth.getVoice(i)))
         {
             auto& attack = *apvts.getRawParameterValue("ATTACK");
+            auto& decay = *apvts.getRawParameterValue("DECAY");
+            auto& sustain = *apvts.getRawParameterValue("SUSTAIN");
+            auto& release = *apvts.getRawParameterValue("RELEASE");
+            auto& gain = *apvts.getRawParameterValue("GAIN");
 
-            voice->updateADSR(attack.load());
+            voice->update(attack, decay, sustain, release, gain);
         }
     }
 
@@ -219,6 +223,10 @@ juce::AudioProcessorValueTreeState::ParameterLayout BasssynthAudioProcessor::cre
 {
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
 
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", juce::NormalisableRange<float> { 0.001f, 1.0f, 0.001f, 0.5f }, 0.1f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.001f, 0.5f }, 0.01f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("DECAY", "decay", juce::NormalisableRange<float> { 0.01f, 1.0f, 0.001f, 0.6f }, 0.1f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "sustain", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.001f, 0.7f }, 0.3f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "release", juce::NormalisableRange<float> { 0.0f, 2.0f, 0.001f, 0.5f }, 0.2f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("GAIN", "gain", juce::NormalisableRange<float> { 0.01f, 1.0f, 0.001f, 0.5f }, 0.3f));
         return { params.begin(), params.end() };
 }

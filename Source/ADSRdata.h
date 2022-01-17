@@ -14,7 +14,7 @@
 class adsrData : public juce::ADSR
 {
 public:
-    void updateADSR(float attack);
+    void updateADSR(float attack, float decay, float sustain, float release);
 
 private:
     juce::ADSR::Parameters adsrParameters;

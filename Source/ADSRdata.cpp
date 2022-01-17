@@ -10,8 +10,11 @@
 
 #include "ADSRdata.h"
 
-void adsrData::updateADSR(float attack)
+void adsrData::updateADSR(float attack, float decay, float sustain, float release)
 {
     adsrParameters.attack = attack;
+    adsrParameters.decay = decay;
+    adsrParameters.sustain = sustain;
+    adsrParameters.release = release;
     setParameters(adsrParameters);
 }

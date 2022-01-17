@@ -15,9 +15,16 @@
 ADSRComponent::ADSRComponent(juce::AudioProcessorValueTreeState& apvts)
 {
     attackAttachment = std::make_unique<SliderAttachment>(apvts, "ATTACK", attackSlider);
-
+    decayAttachment = std::make_unique<SliderAttachment>(apvts, "DECAY", decaySlider);
+    sustainAttachment = std::make_unique<SliderAttachment>(apvts, "SUSTAIN", sustainSlider);
+    releaseAttachment = std::make_unique<SliderAttachment>(apvts, "RELEASE", releaseSlider);
+    gainAttachment = std::make_unique<SliderAttachment>(apvts, "GAIN", gainSlider);
 
     setSliderParams(attackSlider);
+    setSliderParams(decaySlider);
+    setSliderParams(sustainSlider);
+    setSliderParams(releaseSlider);
+    setSliderParams(gainSlider);
 
 }
 
@@ -33,29 +40,23 @@ void ADSRComponent::paint (juce::Graphics& g)
        You should replace everything in this method with your own
        drawing code..
     */
-
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
-
-    g.setColour (juce::Colours::grey);
-    g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
-
-    g.setColour (juce::Colours::white);
-    g.setFont (14.0f);
-    g.drawText ("ADSRComponent", getLocalBounds(),
-                juce::Justification::centred, true);   // draw some placeholder text
 }
 
 void ADSRComponent::resized()
 {
     auto bounds = getLocalBounds().reduced(10);
     auto padding = 10;
-    auto numSliders = 1;
+    auto numSliders = 5;
     auto sliderWidth = bounds.getWidth() / numSliders - padding;
     auto sliderHeight = bounds.getHeight() - padding;
     auto sliderStartX = 0;
     auto sliderStartY = bounds.getHeight() / 2 - (sliderHeight / 2);
 
     attackSlider.setBounds(sliderStartX, sliderStartY, sliderWidth, sliderHeight);
+    decaySlider.setBounds(attackSlider.getRight() + padding, sliderStartY, sliderWidth, sliderHeight);
+    sustainSlider.setBounds(decaySlider.getRight() + padding, sliderStartY, sliderWidth, sliderHeight);
+    releaseSlider.setBounds(sustainSlider.getRight() + padding, sliderStartY, sliderWidth, sliderHeight);
+    gainSlider.setBounds(releaseSlider.getRight() + padding, sliderStartY, sliderWidth, sliderHeight);
 }
 
 void ADSRComponent::setSliderParams(juce::Slider& slider)

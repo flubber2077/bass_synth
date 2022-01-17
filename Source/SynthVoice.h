@@ -24,10 +24,11 @@ public:
 	void controllerMoved(int controllerNumber, int newControllerValue) override;
 	void pitchWheelMoved(int newPitchWheelValue) override;
 	void prepareToPlay(double sampleRate, int samplesPerBlock);
-	void updateADSR(const float attack);
+	void update(const float attack, const float decay, const float sustain, const float release, const float gain);
 	void renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int startSample, int numSamples) override;
 	 
 private:
+	float gain;
 	adsrData adsr;
 	juce::AudioBuffer<float> synthBuffer;
 
