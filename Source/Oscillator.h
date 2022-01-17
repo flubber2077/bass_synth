@@ -10,8 +10,9 @@
 
 #pragma once
 #include <JuceHeader.h>
-#define _USE_MATH_DEFINES //annoyingly necessary for microsoft
-#include <math.h>
+//so far, don't need these but keeping for now as they could become necessary at any time
+//#define USE_MATH_DEFINES //annoyingly necessary for microsoft
+//#include <math.h>
 
 class Oscillator {
 public:
@@ -25,11 +26,12 @@ public:
 private:
     float deltaPhase;
     float currentPhase;
+    float subWave = 1.0f;
     float frequency;
     float sampleRate;
-    bool fundamentalType;
-    float fundementalGain;
-    float subGain;
+    bool fundamentalType = true;
+    float fundementalGain = 1.0f;
+    float subGain = 0.0f;
     void updateDelta() {
         deltaPhase = frequency / (sampleRate * 2.0f);
     }
