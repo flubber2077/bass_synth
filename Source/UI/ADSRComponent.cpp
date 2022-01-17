@@ -48,9 +48,9 @@ void ADSRComponent::resized()
     auto padding = 10;
     auto numSliders = 5;
     auto sliderWidth = bounds.getWidth() / numSliders - padding;
-    auto sliderHeight = bounds.getHeight() - padding;
-    auto sliderStartX = 0;
-    auto sliderStartY = bounds.getHeight() / 2 - (sliderHeight / 2);
+    auto sliderHeight = bounds.getHeight() - (padding/2);
+    auto sliderStartX = padding;
+    auto sliderStartY = bounds.getHeight() / 2 - ((sliderHeight - padding)/ 2);
 
     attackSlider.setBounds(sliderStartX, sliderStartY, sliderWidth, sliderHeight);
     decaySlider.setBounds(attackSlider.getRight() + padding, sliderStartY, sliderWidth, sliderHeight);
@@ -63,5 +63,6 @@ void ADSRComponent::setSliderParams(juce::Slider& slider)
 {
     slider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
     slider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 25);
+
     addAndMakeVisible(slider);
 }

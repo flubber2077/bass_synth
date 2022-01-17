@@ -27,6 +27,9 @@ private:
     float currentPhase;
     float frequency;
     float sampleRate;
+    bool fundamentalType;
+    float fundementalGain;
+    float subGain;
     void updateDelta() {
         deltaPhase = frequency / (sampleRate * 2.0f);
     }
