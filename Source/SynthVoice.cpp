@@ -48,9 +48,10 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock)
     osc.updateSamplerate(sampleRate);
 }
 
-void SynthVoice::updateADSR(const float attack)
+void SynthVoice::update(const float attack, const float decay, const float sustain, const float release, const float volume)
 {
-    adsr.updateADSR(attack);
+    adsr.updateADSR(attack, decay, sustain, release);
+    gain = volume;
 }
 
 void SynthVoice::renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int startSample, int numSamples)
@@ -67,7 +68,7 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int s
 
     osc.processBlock(synthBuffer);
     adsr.applyEnvelopeToBuffer(synthBuffer, 0, synthBuffer.getNumSamples());
-    synthBuffer.applyGain(0, synthBuffer.getNumSamples(), .2f);
+    synthBuffer.applyGain(0, synthBuffer.getNumSamples(), gain);
 
     for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel)
     {
