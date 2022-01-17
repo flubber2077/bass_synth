@@ -5,6 +5,15 @@
               pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn">
   <MAINGROUP id="vjMNrG" name="bass-synth">
     <GROUP id="{EEDB20EC-37FD-D821-672D-9AD3B232E3A0}" name="Source">
+      <GROUP id="{18909BD3-3462-CC38-1C17-C7CCC190DFBB}" name="DSP">
+        <FILE id="bbFtHP" name="ADSRdata.cpp" compile="1" resource="0" file="Source/ADSRdata.cpp"/>
+        <FILE id="Jj8G6n" name="ADSRdata.h" compile="0" resource="0" file="Source/ADSRdata.h"/>
+      </GROUP>
+      <GROUP id="{43D4DC0F-F49B-FFC0-1575-28D1BF01FF0F}" name="UI">
+        <FILE id="mdeETe" name="ADSRComponent.cpp" compile="1" resource="0"
+              file="Source/UI/ADSRComponent.cpp"/>
+        <FILE id="VhoTLY" name="ADSRComponent.h" compile="0" resource="0" file="Source/UI/ADSRComponent.h"/>
+      </GROUP>
       <FILE id="P7uHoU" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="Ro0XkE" name="PluginProcessor.h" compile="0" resource="0"
