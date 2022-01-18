@@ -31,18 +31,15 @@ void Oscillator::reset()
 
 float Oscillator::processSample()
 {
-    //do i just override this code when i build more complex oscillators? its not a ton of code but that seems kind of wise. or maybe just build a simpler processPhase function that other stuff can use? who is to say.
     currentPhase += deltaPhase;
     if (currentPhase > 1.0f)
     {
         currentPhase-= 1.0f;
         subWave = -subWave;
     }
-    /*returns a cubic approximation of sine, appropriate from 0-1.(adjust constants to change range)
-     a piece-wise quadratic approximation has less harmonics weirdly, but this may sound better.
-     trying out avoiding true sine waves, i dont think they are interesting or sound good.
-     this will eventually be replaced/bolstered by more robust waveshaping
-     this has the harmonic series of sin(nx)/n^3, as if it was the second interpolation of a saw, the way a triangle is the first interpolation of a square.*/
+    /*returns an approximation of sine from 0-1.
+     Either a cubic approximation with sin(nx)/x^3, like a second interpolation of saw
+     or a piecwise quadratic approximation with similar spectral response, but only odd harmonics*/
     float fundamentalWave;
     switch (fundamentalType) {
     case 0:
@@ -60,7 +57,7 @@ float Oscillator::processSample()
         break;
     }
 
-    return (fundamentalWave * fundementalGain) + (subWave * subGain);
+    return (fundamentalWave * fundamentalGain) + (subWave * subGain);
 }
 
 void Oscillator::processBlock(juce::AudioBuffer< float >& buffer)
@@ -72,4 +69,11 @@ void Oscillator::processBlock(juce::AudioBuffer< float >& buffer)
         bufferPointerL[sample] = processSample();
         bufferPointerR[sample] = bufferPointerL[sample];
     }
+}
+
+void Oscillator::updateControls(bool waveType, float fundGain, float subOscGain)
+{
+    fundamentalType = waveType;
+    fundamentalGain = fundGain;
+    subGain = subOscGain;
 }
