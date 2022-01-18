@@ -71,9 +71,10 @@ void Oscillator::processBlock(juce::AudioBuffer< float >& buffer)
     }
 }
 
-void Oscillator::updateControls(bool waveType, float fundGain, float subOscGain)
+void Oscillator::updateControls(bool waveType, float fundGain, float sawOscGain, float subOscGain)
 {
     fundamentalType = waveType;
     fundamentalGain = fundGain;
+    sawGain = sawOscGain;
     subGain = subOscGain;
 }

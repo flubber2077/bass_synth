@@ -28,12 +28,15 @@ private:
     void setSliderParams(juce::Slider& slider);
 
     juce::Slider fundGainSlider;
+    juce::Slider sawGainSlider;
     juce::Slider subGainSlider;
+    
     juce::ToggleButton waveshapeButton;
 
     using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
 
     std::unique_ptr<SliderAttachment> fundGainAttachment;
+    std::unique_ptr<SliderAttachment> sawGainAttachment;
     std::unique_ptr<SliderAttachment> subGainAttachment;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> waveshapeAttachment;
 
