@@ -16,9 +16,11 @@ OscComponent::OscComponent(juce::AudioProcessorValueTreeState& apvts)
 {
     fundGainAttachment = std::make_unique<SliderAttachment>(apvts, "FUNDGAIN", fundGainSlider);
     subGainAttachment = std::make_unique<SliderAttachment>(apvts, "SUBGAIN", subGainSlider);
+    waveshapeAttachment = std::make_unique< juce::AudioProcessorValueTreeState::ButtonAttachment>(apvts, "FWAVESHAPE", waveshapeButton);
 
     setSliderParams(fundGainSlider);
     setSliderParams(subGainSlider);
+    addAndMakeVisible(waveshapeButton);
 }
 
 OscComponent::~OscComponent()
@@ -36,12 +38,13 @@ void OscComponent::resized()
     auto padding = 10;
     auto numSliders = 2;
     auto sliderWidth = bounds.getWidth() / numSliders - padding;
-    auto sliderHeight = bounds.getHeight() - (padding / 2);
+    auto sliderHeight = bounds.getHeight() * 9/10;
     auto sliderStartX = padding;
-    auto sliderStartY = bounds.getHeight() / 2 - ((sliderHeight - padding) / 2);
+    auto sliderStartY = 0;
 
     fundGainSlider.setBounds(sliderStartX, sliderStartY, sliderWidth, sliderHeight);
     subGainSlider.setBounds(fundGainSlider.getRight() + padding, sliderStartY, sliderWidth, sliderHeight);
+    waveshapeButton.setBounds(sliderStartX+(sliderWidth/2)-12, sliderStartY +  sliderHeight + padding, 25, 25);
 }
 
 void OscComponent::setSliderParams(juce::Slider& slider)

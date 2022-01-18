@@ -48,9 +48,9 @@ void ADSRComponent::resized()
     auto padding = 10;
     auto numSliders = 5;
     auto sliderWidth = bounds.getWidth() / numSliders - padding;
-    auto sliderHeight = bounds.getHeight() - (padding/2);
+    auto sliderHeight = bounds.getHeight();
     auto sliderStartX = padding;
-    auto sliderStartY = bounds.getHeight() / 2 - ((sliderHeight - padding)/ 2);
+    auto sliderStartY = 0;
 
     attackSlider.setBounds(sliderStartX, sliderStartY, sliderWidth, sliderHeight);
     decaySlider.setBounds(attackSlider.getRight() + padding, sliderStartY, sliderWidth, sliderHeight);

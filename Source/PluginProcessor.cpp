@@ -160,6 +160,7 @@ void BasssynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
             //auto& fWaveshape = *apvts.getRawParameterValue("fUNDWAVESHAPE");
             auto& fundGain = *apvts.getRawParameterValue("FUNDGAIN");
             auto& subGain = *apvts.getRawParameterValue("SUBGAIN");
+            auto& fWaveshape = *apvts.getRawParameterValue("FWAVESHAPE");
 
             auto& attack = *apvts.getRawParameterValue("ATTACK");
             auto& decay = *apvts.getRawParameterValue("DECAY");
@@ -167,7 +168,7 @@ void BasssynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
             auto& release = *apvts.getRawParameterValue("RELEASE");
             auto& gain = *apvts.getRawParameterValue("GAIN");
 
-            voice->update(false, fundGain, subGain, attack, decay, sustain, release, gain);
+            voice->update(fWaveshape, fundGain, subGain, attack, decay, sustain, release, gain);
 
 
         }
@@ -229,9 +230,9 @@ juce::AudioProcessorValueTreeState::ParameterLayout BasssynthAudioProcessor::cre
 {
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
     //oscillator controls
-    //params.push_back(std::make_unique<juce::AudioParameterBool>("fUNDWAVESHAPE", "fundWaveshape", false));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("FUNDGAIN", "FundamentalGain", juce::NormalisableRange<float> { 0.001f, 1.0f, 0.001f, 0.3f }, 0.2f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("SUBGAIN", "subGain", juce::NormalisableRange<float> { 0.001f, 1.0f, 0.001f, 0.3f }, 0.2f));
+    params.push_back(std::make_unique<juce::AudioParameterBool>("FWAVESHAPE", "fundWaveshape", false));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("FUNDGAIN", "FundamentalGain", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.001f, 0.3f }, 0.2f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("SUBGAIN", "subGain", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.001f, 0.3f }, 0.2f));
 
     //adsr controls
     params.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.001f, 0.5f }, 0.01f));
