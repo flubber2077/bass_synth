@@ -57,7 +57,7 @@ float Oscillator::processSample()
         break;
     }
 
-    return (fundamentalWave * fundamentalGain) + (subWave * subGain);
+    return (fundamentalWave * fundamentalGain) + (subWave * subGain) + (currentPhase * sawGain);
 }
 
 void Oscillator::processBlock(juce::AudioBuffer< float >& buffer)
@@ -71,9 +71,10 @@ void Oscillator::processBlock(juce::AudioBuffer< float >& buffer)
     }
 }
 
-void Oscillator::updateControls(bool waveType, float fundGain, float subOscGain)
+void Oscillator::updateControls(bool waveType, float fundGain, float subOscGain, float sawOscGain)
 {
     fundamentalType = waveType;
     fundamentalGain = fundGain;
     subGain = subOscGain;
+    sawGain = sawOscGain;
 }

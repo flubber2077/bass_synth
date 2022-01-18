@@ -24,7 +24,7 @@ public:
 	void controllerMoved(int controllerNumber, int newControllerValue) override;
 	void pitchWheelMoved(int newPitchWheelValue) override;
 	void prepareToPlay(double sampleRate, int samplesPerBlock);
-	void update(const float fundType, const float fundGain, const float subGain, const float attack, const float decay, const float sustain, const float release, const float volume);
+	void update(const float fundType, const float fundGain, const float subGain, const float sawGain, const float attack, const float decay, const float sustain, const float release, const float volume);
 	void renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int startSample, int numSamples) override;
 	 
 private:

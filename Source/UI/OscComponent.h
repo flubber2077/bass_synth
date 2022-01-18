@@ -29,13 +29,13 @@ private:
 
     juce::Slider fundGainSlider;
     juce::Slider subGainSlider;
-    juce::ToggleButton waveshapeButton;
+    juce::Slider sawGainSlider;
 
     using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
 
     std::unique_ptr<SliderAttachment> fundGainAttachment;
     std::unique_ptr<SliderAttachment> subGainAttachment;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> waveshapeAttachment;
+    std::unique_ptr<SliderAttachment> sawGainAttachment;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OscComponent)
 };

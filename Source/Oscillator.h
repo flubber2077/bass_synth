@@ -22,7 +22,7 @@ public:
     void reset();
     float processSample();
     void processBlock(juce::AudioBuffer< float >& buffer);
-    void updateControls(bool fundamentalType, float fundamentalGain, float subGain);
+    void updateControls(bool fundamentalType, float fundamentalGain, float subGain, float sawGain);
 
 private:
     float deltaPhase;
@@ -33,6 +33,7 @@ private:
     bool fundamentalType = true;
     float fundamentalGain = 1.0f;
     float subGain = 0.0f;
+    float sawGain = 0.0f;
     void updateDelta() {
         deltaPhase = frequency / (sampleRate * 2.0f);
     }
