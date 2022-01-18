@@ -48,10 +48,11 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock)
     osc.updateSamplerate(sampleRate);
 }
 
-void SynthVoice::update(const float attack, const float decay, const float sustain, const float release, const float volume)
+void SynthVoice::update(const float fundType, const float fundGain, const float subGain, const float attack, const float decay, const float sustain, const float release, const float volume)
 {
     adsr.updateADSR(attack, decay, sustain, release);
     gain = volume;
+    osc.updateControls(fundType, fundGain, subGain);
 }
 
 void SynthVoice::renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int startSample, int numSamples)
