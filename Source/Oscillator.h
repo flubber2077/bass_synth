@@ -33,6 +33,7 @@ private:
     bool fundamentalType = true;
     float fundamentalGain = 1.0f;
     float subGain = 0.0f;
+    float sawGain = 0.5f;
     void updateDelta() {
         deltaPhase = frequency / (sampleRate * 2.0f);
     }

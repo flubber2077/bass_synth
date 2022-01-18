@@ -57,7 +57,7 @@ float Oscillator::processSample()
         break;
     }
 
-    return (fundamentalWave * fundamentalGain) + (subWave * subGain);
+    return (fundamentalWave * fundamentalGain) + (subWave * subGain) + ((2 * currentPhase - 1) * sawGain);
 }
 
 void Oscillator::processBlock(juce::AudioBuffer< float >& buffer)
