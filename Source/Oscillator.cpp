@@ -63,11 +63,16 @@ float Oscillator::processSample()
 void Oscillator::processBlock(juce::AudioBuffer< float >& buffer)
 {
     float* bufferPointerL = buffer.getWritePointer(0);
-    float* bufferPointerR = buffer.getWritePointer(1);
-    for (int sample = 0; sample< buffer.getNumSamples(); sample++)
+    for (int sample = 0; sample < buffer.getNumSamples(); sample++)
     {
         bufferPointerL[sample] = processSample();
-        bufferPointerR[sample] = bufferPointerL[sample];
+    }
+    for (int channel = 1; channel < buffer.getNumChannels(); channel++)
+    {
+        for (int sample = 0; sample < buffer.getNumSamples(); sample++)
+        {
+
+        }
     }
 }
 

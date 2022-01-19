@@ -38,7 +38,12 @@ void SynthVoice::controllerMoved(int controllerNumber, int newControllerValue)
 
 void SynthVoice::pitchWheelMoved(int newPitchWheelValue)
 {
-
+    //converts pitchWheel to range of -1 to 1
+    float amount = (newPitchWheelValue - 8192) / 8192.0f;
+    //converts to cents, assuming  major second range, -200 to 200 cents
+    float cent = 200.0f * amount;
+    //uses piecewise linear function pulled from wikipedia page on cents to apply pitch shift
+    osc.updateFrequency(juce::MidiMessage::getMidiNoteInHertz(getCurrentlyPlayingNote()) * ( 1 + (.0005946 * cent)));
 }
 
 void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int numChannels)
