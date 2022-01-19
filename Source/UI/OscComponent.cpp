@@ -28,6 +28,7 @@ OscComponent::OscComponent(juce::AudioProcessorValueTreeState& apvts)
 
 OscComponent::~OscComponent()
 {
+
 }
 
 void OscComponent::paint (juce::Graphics& g)

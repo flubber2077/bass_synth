@@ -8,11 +8,17 @@
       <GROUP id="{18909BD3-3462-CC38-1C17-C7CCC190DFBB}" name="DSP">
         <FILE id="bbFtHP" name="ADSRdata.cpp" compile="1" resource="0" file="Source/ADSRdata.cpp"/>
         <FILE id="Jj8G6n" name="ADSRdata.h" compile="0" resource="0" file="Source/ADSRdata.h"/>
+        <FILE id="yPlzgI" name="filter.cpp" compile="1" resource="0" file="Source/DSP/filter.cpp"/>
+        <FILE id="e7H4SM" name="filter.h" compile="0" resource="0" file="Source/DSP/filter.h"/>
       </GROUP>
       <GROUP id="{43D4DC0F-F49B-FFC0-1575-28D1BF01FF0F}" name="UI">
         <FILE id="mdeETe" name="ADSRComponent.cpp" compile="1" resource="0"
               file="Source/UI/ADSRComponent.cpp"/>
         <FILE id="VhoTLY" name="ADSRComponent.h" compile="0" resource="0" file="Source/UI/ADSRComponent.h"/>
+        <FILE id="E6t3o0" name="filterComponent.cpp" compile="1" resource="0"
+              file="Source/UI/filterComponent.cpp"/>
+        <FILE id="dOlmi2" name="filterComponent.h" compile="0" resource="0"
+              file="Source/UI/filterComponent.h"/>
         <FILE id="qdHSCu" name="OscComponent.cpp" compile="1" resource="0"
               file="Source/UI/OscComponent.cpp"/>
         <FILE id="IhdObl" name="OscComponent.h" compile="0" resource="0" file="Source/UI/OscComponent.h"/>
