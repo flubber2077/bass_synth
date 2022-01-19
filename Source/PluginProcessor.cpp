@@ -101,7 +101,7 @@ void BasssynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBl
     {
         if (auto voice = dynamic_cast<SynthVoice*>(synth.getVoice(i)))
         {
-            voice->prepareToPlay(sampleRate, samplesPerBlock);
+            voice->prepareToPlay(sampleRate, samplesPerBlock, getTotalNumOutputChannels());
         }
     }
 }

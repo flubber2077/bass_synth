@@ -19,6 +19,7 @@
 class filter
 {
 public:
+    void prepareToPlay(int numChannels, float sampleRate);
     void reset();
     void advanceFilter(float &sample);
     void advanceFilter(float &sample, int channel);

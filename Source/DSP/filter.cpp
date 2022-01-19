@@ -9,12 +9,20 @@
 */
 
 #include "filter.h"
+
+void filter::prepareToPlay(int numChannels, float sampleRate)
+{
+    updateSampleRate(sampleRate);
+    state.resize(numChannels);
+    reset();
+}
+
+
 void filter::reset()
 {
-    state.resize(8, 0);
     avg = 0.0f;
-        cutoffFrequency = 500.0f;
-        updateCutoff();
+    cutoffFrequency = 300.0f;
+    updateCutoff();
 }
 
 void filter::advanceFilter(float &sample)
