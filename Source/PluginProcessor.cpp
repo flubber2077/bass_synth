@@ -23,7 +23,10 @@ BasssynthAudioProcessor::BasssynthAudioProcessor()
 #endif
 {
    synth.addSound(new SynthSound());
-   synth.addVoice(new SynthVoice());
+   for (int numVoices = 0; numVoices < 6; numVoices++)
+   {
+       synth.addVoice(new SynthVoice());
+   }
 }
 
 BasssynthAudioProcessor::~BasssynthAudioProcessor()
@@ -231,7 +234,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout BasssynthAudioProcessor::cre
 {
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
     //oscillator controls
-    params.push_back(std::make_unique<juce::AudioParameterBool>("FWAVESHAPE", "fundWaveshape", false));
+    params.push_back(std::make_unique<juce::AudioParameterBool>("FWAVESHAPE", "fundWaveshape", true));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("FUNDGAIN", "FundamentalGain", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.001f, 0.3f }, 0.2f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("SUBGAIN", "subGain", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.001f, 0.3f }, 0.2f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("SAWGAIN", "sawGain", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.001f, 0.3f }, 0.2f));

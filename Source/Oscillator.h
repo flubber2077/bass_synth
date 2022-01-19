@@ -30,10 +30,10 @@ private:
     float subWave = 1.0f;
     float frequency;
     float sampleRate;
-    bool fundamentalType = true;
-    float fundamentalGain = 1.0f;
-    float sawGain = 0.0f;
-    float subGain = 0.0f;
+    bool fundamentalType;
+    float fundamentalGain;
+    float sawGain;
+    float subGain;
     void updateDelta() {
         deltaPhase = frequency / (sampleRate * 2.0f);
     }
