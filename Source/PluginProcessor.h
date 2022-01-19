@@ -12,6 +12,7 @@
 #include "SynthVoice.h"
 #include "SynthSound.h"
 #include "Oscillator.h"
+#include "DSP/filter.h"
 
 //==============================================================================
 /**

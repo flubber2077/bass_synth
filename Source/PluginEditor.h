@@ -12,6 +12,7 @@
 #include "PluginProcessor.h"
 #include "UI/ADSRComponent.h"
 #include "UI/OscComponent.h"
+#include "UI/filterComponent.h"
 
 //==============================================================================
 /**
@@ -30,6 +31,7 @@ private:
     BasssynthAudioProcessor& audioProcessor;
     OscComponent osc;
     ADSRComponent adsr;
+    filterComponent filter;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BasssynthAudioProcessorEditor)
 };

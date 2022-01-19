@@ -47,7 +47,7 @@ void filter::updateSampleRate(float sampleRate)
 
 void filter::updateCutoff(float frequency)
 {
-    frequency = cutoffFrequency;
+    cutoffFrequency = frequency;
     updateCutoff();
 }
 

@@ -11,7 +11,7 @@
 
 //==============================================================================
 BasssynthAudioProcessorEditor::BasssynthAudioProcessorEditor (BasssynthAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p), osc(audioProcessor.apvts), adsr (audioProcessor.apvts)
+    : AudioProcessorEditor (&p), audioProcessor (p), osc(audioProcessor.apvts), adsr (audioProcessor.apvts), filter( audioProcessor.apvts)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
@@ -19,6 +19,7 @@ BasssynthAudioProcessorEditor::BasssynthAudioProcessorEditor (BasssynthAudioProc
 
     addAndMakeVisible(adsr);
     addAndMakeVisible(osc);
+    addAndMakeVisible(filter);
 }
 
 BasssynthAudioProcessorEditor::~BasssynthAudioProcessorEditor()
@@ -38,6 +39,9 @@ void BasssynthAudioProcessorEditor::paint (juce::Graphics& g)
 
 void BasssynthAudioProcessorEditor::resized()
 {
-    adsr.setBounds(getWidth()/2, 0 , getWidth()/2, getHeight());
-    osc.setBounds(0, 0, getWidth()/2, getHeight());
+    int width = getWidth();
+    int height = getHeight();
+    adsr.setBounds(width / 2, 0 , width / 2, height);
+    osc.setBounds(0, 0, width / 2, height / 2);
+    filter.setBounds(0, height / 2, width / 2, height / 2);
 }

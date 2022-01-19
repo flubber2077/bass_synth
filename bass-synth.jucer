@@ -15,6 +15,10 @@
         <FILE id="mdeETe" name="ADSRComponent.cpp" compile="1" resource="0"
               file="Source/UI/ADSRComponent.cpp"/>
         <FILE id="VhoTLY" name="ADSRComponent.h" compile="0" resource="0" file="Source/UI/ADSRComponent.h"/>
+        <FILE id="E6t3o0" name="filterComponent.cpp" compile="1" resource="0"
+              file="Source/UI/filterComponent.cpp"/>
+        <FILE id="dOlmi2" name="filterComponent.h" compile="0" resource="0"
+              file="Source/UI/filterComponent.h"/>
         <FILE id="qdHSCu" name="OscComponent.cpp" compile="1" resource="0"
               file="Source/UI/OscComponent.cpp"/>
         <FILE id="IhdObl" name="OscComponent.h" compile="0" resource="0" file="Source/UI/OscComponent.h"/>
