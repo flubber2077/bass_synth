@@ -35,6 +35,6 @@ private:
     float sawGain;
     float subGain;
     void updateDelta() {
-        deltaPhase = frequency / (sampleRate * 2.0f);
+        deltaPhase = frequency / sampleRate;
     }
 };
