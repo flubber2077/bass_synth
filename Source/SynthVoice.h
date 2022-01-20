@@ -15,6 +15,7 @@
 #include "Oscillator.h"
 #include "ADSRdata.h"
 #include "DSP/filter.h"
+#include <math.h>
 
 class SynthVoice : public juce::SynthesiserVoice
 {
