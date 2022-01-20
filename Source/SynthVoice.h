@@ -15,6 +15,7 @@
 #include "Oscillator.h"
 #include "ADSRdata.h"
 #include "DSP/filter.h"
+#include <math.h>
 
 class SynthVoice : public juce::SynthesiserVoice
 {
@@ -29,6 +30,8 @@ public:
 	void renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int startSample, int numSamples) override;
 	 
 private:
+	float calculatePitchbend(int pitchwheelPosition);
+
 	float gain;
 	adsrData adsr;
 	juce::AudioBuffer<float> synthBuffer;
