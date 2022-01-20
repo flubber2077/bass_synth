@@ -17,7 +17,7 @@ bool SynthVoice::canPlaySound(juce::SynthesiserSound* sound)
 
 void SynthVoice::startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound, int currentPitchWheelPosition)
 {
-    osc.updateFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber));
+    osc.updateFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber) * (calculatePitchbend(currentPitchWheelPosition)));
     adsr.noteOn();
 }
 
@@ -38,10 +38,7 @@ void SynthVoice::controllerMoved(int controllerNumber, int newControllerValue)
 
 void SynthVoice::pitchWheelMoved(int newPitchWheelValue)
 {
-    //using math.h, if replaced, delete math.h probably
-    //converts pitchWheel to cents, range -200 to 200, change the constant to a variable if a user selectable variable is needed.
-    float centBend = (newPitchWheelValue - 8192) * 200.0f / 8192.0f;
-    osc.updateFrequency(juce::MidiMessage::getMidiNoteInHertz(getCurrentlyPlayingNote()) * ( powf( 2.0f, ( centBend / 1200.0f ))));
+    osc.updateFrequency(juce::MidiMessage::getMidiNoteInHertz(getCurrentlyPlayingNote()) * calculatePitchbend(newPitchWheelValue));
 }
 
 void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int numChannels)
@@ -88,3 +85,11 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int s
     }
 }
  
+float SynthVoice::calculatePitchbend(int pitchwheelPosition)
+{
+    //using math.h, if replaced, delete math.h probably
+    //converts pitchWheel to cents, range -200 to 200, change the constant to a variable if a user selectable variable is needed.
+    float centBend = (pitchwheelPosition - 8192) * 200.0f / 8192.0f;
+    float ratio = powf(2.0f, (centBend / 1200.0f));
+    return ratio;
+}

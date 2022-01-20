@@ -30,6 +30,8 @@ public:
 	void renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int startSample, int numSamples) override;
 	 
 private:
+	float calculatePitchbend(int pitchwheelPosition);
+
 	float gain;
 	adsrData adsr;
 	juce::AudioBuffer<float> synthBuffer;
