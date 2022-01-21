@@ -40,8 +40,12 @@ float Oscillator::processSample()
         subWave = -subWave;
         sawWave -= 2.0f;
         float t = currentPhase/deltaPhase;
-        sawWave -= t + t - t * t - 1.0;
-    }
+        sawWave -= t + t - t * t - 1.0f;
+        }
+        else if (currentPhase > 1.0f - deltaPhase){
+        float t = (currentPhase - 1.0f) / deltaPhase;
+        sawWave -= t * t + t + t + 1.0f;
+        }
 
     float fundamentalWave = fundamental(currentPhase);
 
