@@ -32,14 +32,15 @@ void Oscillator::reset()
 float Oscillator::processSample()
 {
     currentPhase += deltaPhase;
-    float sawWave = 2 * currentPhase - 1;
+    float sawWave = 2.0f * currentPhase - 1.0f;
     
         if (currentPhase > 1.0f)
     {
         currentPhase-= 1.0f;
         subWave = -subWave;
-        float t = currentPhase / deltaPhase;
-        sawWave -= t;
+        sawWave -= 2.0f;
+        float t = currentPhase/deltaPhase;
+        sawWave -= t + t - t * t - 1.0;
     }
 
     float fundamentalWave = fundamental(currentPhase);
