@@ -21,6 +21,7 @@ public:
     void updateSamplerate(float sampleRate);
     void reset();
     float processSample();
+    float fundamental(float phase);
     void processBlock(juce::AudioBuffer< float >& buffer);
     void updateControls(bool fundamentalType, float fundamentalGain, float sawGain, float subGain);
 
