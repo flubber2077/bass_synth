@@ -56,6 +56,7 @@ void OscComponent::setSliderParams(juce::Slider& slider)
 {
     slider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
     slider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 25);
+    slider.setColour(juce::Slider::thumbColourId, juce::Colours::mediumseagreen);
 
     addAndMakeVisible(slider);
 }
