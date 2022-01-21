@@ -25,6 +25,7 @@ ADSRComponent::ADSRComponent(juce::AudioProcessorValueTreeState& apvts)
     setSliderParams(sustainSlider);
     setSliderParams(releaseSlider);
     setSliderParams(gainSlider);
+    gainSlider.setColour(juce::Slider::thumbColourId, juce::Colours::whitesmoke);
 
 }
 
@@ -63,6 +64,7 @@ void ADSRComponent::setSliderParams(juce::Slider& slider)
 {
     slider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
     slider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 25);
+    slider.setColour(juce::Slider::thumbColourId, juce::Colours::mediumslateblue);
 
     addAndMakeVisible(slider);
 }
