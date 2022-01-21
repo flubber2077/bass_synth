@@ -33,23 +33,31 @@ float Oscillator::processSample()
 {
     currentPhase += deltaPhase;
     float sawWave = 2.0f * currentPhase - 1.0f;
+    float subOut = subWave;
     
         if (currentPhase > 1.0f)
     {
         currentPhase-= 1.0f;
         subWave = -subWave;
+        subOut = subWave;
         sawWave -= 2.0f;
+
+        //polyBlep implementation
         float t = currentPhase/deltaPhase;
-        sawWave -= t + t - t * t - 1.0f;
+        float polyBlep = t + t - t * t - 1.0f;
+        sawWave -= polyBlep;
+        subOut *= 1.0f + polyBlep;
         }
         else if (currentPhase > 1.0f - deltaPhase){
         float t = (currentPhase - 1.0f) / deltaPhase;
-        sawWave -= t * t + t + t + 1.0f;
+        float polyBlep = t * t + t + t + 1.0f;
+        sawWave -= polyBlep;
+        subOut *= 1.0f - polyBlep;
         }
 
     float fundamentalWave = fundamental(currentPhase);
 
-    return (fundamentalWave * fundamentalGain) + (subWave * subGain) + (sawWave * sawGain);
+    return (fundamentalWave * fundamentalGain) + (subOut * subGain) + (sawWave * sawGain);
 }
 
 void Oscillator::processBlock(juce::AudioBuffer< float >& buffer)
