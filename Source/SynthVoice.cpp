@@ -47,6 +47,7 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int numCh
     adsr.setSampleRate(sampleRate);
     osc.updateSamplerate(sampleRate);
     filter.prepareToPlay(numChannels, sampleRate);
+    svfFilter.prepareToPlay(numChannels, sampleRate);
 }
 
 void SynthVoice::update(const float glide, const float fundType, const float fundGain, const float sawGain, const float subGain, const float cutoffFreq, const float attack, const float decay, const float sustain, const float release, const float volume)
@@ -54,6 +55,7 @@ void SynthVoice::update(const float glide, const float fundType, const float fun
     adsr.updateADSR(attack, decay, sustain, release);
     gain = volume;
     filter.updateCutoff(cutoffFreq);
+    svfFilter.updateCutoff(cutoffFreq);
     osc.updateControls(fundType, fundGain, sawGain, subGain);
     osc.updateGlide(glide);
 }
@@ -71,7 +73,7 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int s
     synthBuffer.clear();
 
     osc.processBlock(synthBuffer);
-    filter.processBlock(synthBuffer);
+    svfFilter.processBlock(synthBuffer);
     adsr.applyEnvelopeToBuffer(synthBuffer, 0, synthBuffer.getNumSamples());
     synthBuffer.applyGain(0, synthBuffer.getNumSamples(), gain);
 

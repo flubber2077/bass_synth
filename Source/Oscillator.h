@@ -32,7 +32,6 @@ private:
     float currentPhase;
     float subWave = 1.0f;
     float frequency;
-    float currentFreq = 10.0f;
     float sampleRate;
     bool fundamentalType;
     float fundamentalGain;

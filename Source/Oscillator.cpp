@@ -39,7 +39,7 @@ void Oscillator::reset()
 
 float Oscillator::processSample()
 {
-    filter.advanceFilter(frequency, currentFreq);
+    float currentFreq = filter.advanceFilter(frequency);
     updateDelta(currentFreq);
 
     currentPhase += deltaPhase;
