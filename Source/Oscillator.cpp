@@ -34,26 +34,26 @@ float Oscillator::processSample()
     currentPhase += deltaPhase;
     float sawWave = 2.0f * currentPhase - 1.0f;
     float subOut = subWave;
-    
-        if (currentPhase > 1.0f)
+
+    if (currentPhase > 1.0f)
     {
-        currentPhase-= 1.0f;
+        currentPhase -= 1.0f;
         subWave = -subWave;
         subOut = subWave;
         sawWave -= 2.0f;
 
         //polyBlep implementation
-        float t = currentPhase/deltaPhase;
+        float t = currentPhase / deltaPhase;
         float polyBlep = t + t - t * t - 1.0f;
         sawWave -= polyBlep;
         subOut *= 1.0f + polyBlep;
-        }
-        else if (currentPhase > 1.0f - deltaPhase){
+    }
+    else if (currentPhase > 1.0f - deltaPhase) {
         float t = (currentPhase - 1.0f) / deltaPhase;
         float polyBlep = t * t + t + t + 1.0f;
         sawWave -= polyBlep;
         subOut *= 1.0f - polyBlep;
-        }
+    }
 
     float fundamentalWave = fundamental(currentPhase);
 
@@ -63,11 +63,14 @@ float Oscillator::processSample()
 void Oscillator::processBlock(juce::AudioBuffer< float >& buffer)
 {
     float* bufferPointerL = buffer.getWritePointer(0);
-    float* bufferPointerR = buffer.getWritePointer(1);
     for (int sample = 0; sample < buffer.getNumSamples(); sample++)
     {
         bufferPointerL[sample] = processSample();
-        bufferPointerR[sample] = bufferPointerL[sample];
+    }
+
+    for (int channel = 1; channel < buffer.getNumChannels(); channel++)
+    {
+        buffer.addFrom(channel, 0, buffer, 0, 0, buffer.getNumSamples());
     }
 }
 
