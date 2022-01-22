@@ -22,6 +22,7 @@ public:
     void prepareToPlay(int numChannels, float sampleRate);
     void reset();
     void advanceFilter(float &sample);
+    void advanceFilter(float sample, float& output);
     void advanceFilter(float &sample, int channel);
     void updateSampleRate(float sampleRate);
     void updateCutoff(float frequency);

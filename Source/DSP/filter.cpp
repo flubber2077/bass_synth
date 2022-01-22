@@ -32,6 +32,14 @@ void filter::advanceFilter(float &sample)
     avg = sample + input;
 }
 
+void filter::advanceFilter(float sample, float& output)
+{
+    float input = (sample - avg) * trueCutoff;
+    sample = input + avg;
+    avg = sample + input;
+    output = avg;
+}
+
 void filter::advanceFilter(float &sample, int channel)
 {
     float input = (sample - state[channel]) * trueCutoff;
