@@ -25,22 +25,22 @@ void filter::reset()
     updateCutoff();
 }
 
-void filter::advanceFilter(float &sample)
+void filter::processSample(float &sample)
 {
     float input = (sample - avg) * trueCutoff;
     sample = input + avg;
     avg = sample + input;
 }
 
-void filter::advanceFilter(float sample, float& output)
+float filter::advanceFilter(float sample)
 {
     float input = (sample - avg) * trueCutoff;
-    sample = input + avg;
-    avg = sample + input;
-    output = avg;
+    float output = input + avg;
+    avg = output + input;
+    return output;
 }
 
-void filter::advanceFilter(float &sample, int channel)
+void filter::processSample(float &sample, int channel)
 {
     float input = (sample - state[channel]) * trueCutoff;
     sample = input + state[channel];
@@ -66,7 +66,7 @@ void filter::processBlock(juce::AudioBuffer< float >& buffer)
         float* bufferPointer = buffer.getWritePointer(channel);
         for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
         {
-            advanceFilter(bufferPointer[sample], channel);
+            processSample(bufferPointer[sample], channel);
         }
     }
 }
