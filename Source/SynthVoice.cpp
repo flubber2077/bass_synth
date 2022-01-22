@@ -49,12 +49,13 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int numCh
     filter.prepareToPlay(numChannels, sampleRate);
 }
 
-void SynthVoice::update(const float fundType, const float fundGain, const float sawGain, const float subGain, const float cutoffFreq, const float attack, const float decay, const float sustain, const float release, const float volume)
+void SynthVoice::update(const float glide, const float fundType, const float fundGain, const float sawGain, const float subGain, const float cutoffFreq, const float attack, const float decay, const float sustain, const float release, const float volume)
 {
     adsr.updateADSR(attack, decay, sustain, release);
     gain = volume;
     filter.updateCutoff(cutoffFreq);
     osc.updateControls(fundType, fundGain, sawGain, subGain);
+    osc.updateGlide(glide);
 }
 
 void SynthVoice::renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int startSample, int numSamples)
@@ -89,7 +90,7 @@ float SynthVoice::calculatePitchbend(int pitchwheelPosition)
 {
     //using math.h, if replaced, delete math.h probably
     //converts pitchWheel to cents, range -200 to 200, change the constant to a variable if a user selectable variable is needed.
-    float centBend = (pitchwheelPosition - 8192) * 200.0f / 8192.0f;
-    float ratio = powf(2.0f, (centBend / 1200.0f));
-    return ratio;
+    float centBend = (pitchwheelPosition - 8192) * 200 / 8192.0f;
+    //returns the needed ratio change, i.e. 1200 cents = 1 octave, returns 2 for twice the frequency
+    return powf(2.0f, (centBend / 1200.0f));
 }
