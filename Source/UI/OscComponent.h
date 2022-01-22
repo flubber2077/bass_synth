@@ -27,6 +27,7 @@ public:
 private:
     void setSliderParams(juce::Slider& slider);
 
+    juce::Slider glideSlider;
     juce::Slider fundGainSlider;
     juce::Slider sawGainSlider;
     juce::Slider subGainSlider;
@@ -35,6 +36,7 @@ private:
 
     using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
 
+    std::unique_ptr<SliderAttachment> glideAttachment;
     std::unique_ptr<SliderAttachment> fundGainAttachment;
     std::unique_ptr<SliderAttachment> sawGainAttachment;
     std::unique_ptr<SliderAttachment> subGainAttachment;
