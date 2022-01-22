@@ -100,16 +100,16 @@ float Oscillator::fundamental(float phase)
  or a piecwise quadratic approximation with similar spectral response, but only odd harmonics*/
     switch (fundamentalType) {
     case 0:
-        return 20.784f * phase * (phase - .5f) * (phase - 1.0f);
+        return -20.784f * phase * (phase - .5f) * (phase - 1.0f);
         break;
     case 1:
         if (phase < .5f)
         {
-            return -16.0f * phase * (phase - 0.5f);
+            return 16.0f * phase * (phase - 0.5f);
         }
         else
         {
-            return 16.0f * (phase - 0.5f) * (phase - 1.0f);
+            return -16.0f * (phase - 0.5f) * (phase - 1.0f);
         }
         break;
     }
