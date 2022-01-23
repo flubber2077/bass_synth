@@ -167,6 +167,7 @@ void BasssynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
             auto& subGain = *apvts.getRawParameterValue("SUBGAIN");
             auto& fWaveshape = *apvts.getRawParameterValue("FWAVESHAPE");
             auto& cutoffFreq = *apvts.getRawParameterValue("CUTOFF");
+            auto& resonance = *apvts.getRawParameterValue("RESONANCE");
             auto& attack = *apvts.getRawParameterValue("ATTACK");
             auto& decay = *apvts.getRawParameterValue("DECAY");
             auto& sustain = *apvts.getRawParameterValue("SUSTAIN");
@@ -243,6 +244,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout BasssynthAudioProcessor::cre
 
     //filter controls
     params.push_back(std::make_unique<juce::AudioParameterFloat>("CUTOFF", "Cutoff Frequency", juce::NormalisableRange<float> { 0.0f, 22000.0f, 1.0f, 0.3f }, 10000.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("RESONANCE", "Filter Resonance", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.001f, 1.0f }, 0.5f));
 
     //adsr controls
     params.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.001f, 0.5f }, 0.01f));
