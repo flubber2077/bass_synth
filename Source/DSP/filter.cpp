@@ -27,14 +27,14 @@ void filter::reset()
 
 void filter::processSample(float &sample)
 {
-    float input = (sample - avg) * trueCutoff;
+    float input = (sample - avg) * cutoffCoeff;
     sample = input + avg;
     avg = sample + input;
 }
 
 float filter::advanceFilter(float sample)
 {
-    float input = (sample - avg) * trueCutoff;
+    float input = (sample - avg) * cutoffCoeff;
     float output = input + avg;
     avg = output + input;
     return output;
@@ -42,7 +42,7 @@ float filter::advanceFilter(float sample)
 
 void filter::processSample(float &sample, int channel)
 {
-    float input = (sample - state[channel]) * trueCutoff;
+    float input = (sample - state[channel]) * cutoffCoeff;
     sample = input + state[channel];
     state[channel] = sample + input;
 }
@@ -73,8 +73,10 @@ void filter::processBlock(juce::AudioBuffer< float >& buffer)
 
 void filter::updateCutoff()
 {
-    float cutoffDigital = 2.0f * M_PI * cutoffFrequency;
-    float cutoffAnalog = (2.0f / sampleTime) * tan(cutoffDigital * sampleTime / 2.0f);
-    float g = (cutoffAnalog * sampleTime) / 2.0f;
-    trueCutoff = g / (1.0f + g);
+    //i am praying that compiling takes care of this. There is a lot of cleanup that could happen here
+    //but then the variables would have a lot less meaning
+    float wd = 2.0f * M_PI * cutoffFrequency;
+    float prewarpCutoff = (2.0f / sampleTime) * tan(wd * sampleTime / 2.0f);
+    float g = prewarpCutoff * sampleTime / 2.0f;
+    cutoffCoeff = g / (1 + g);
 }

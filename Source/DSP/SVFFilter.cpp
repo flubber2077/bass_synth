@@ -28,20 +28,20 @@ void SVFFilter::reset()
 
 void SVFFilter::processSample(float& sample)
 {
-    float bandPass = (trueCutoff * (sample - avg2) + avg1)* trueDamping;
+    float bandPass = (cutoffCoeff * (sample - avg2) + avg1)* dampingCoeff;
     float v1 = bandPass - avg1;
     avg1 = bandPass + v1;
-    float v2 = trueCutoff * bandPass;
+    float v2 = cutoffCoeff * bandPass;
     sample = v2 + avg2;
     avg2 = sample + v2;
 }
 
 float SVFFilter::advanceFilter(float sample)
 {
-    float bandPass = (trueCutoff * (sample - avg2) + avg1) * trueDamping;
+    float bandPass = (cutoffCoeff * (sample - avg2) + avg1) * dampingCoeff;
     float v1 = bandPass - avg1;
     avg1 = bandPass + v1;
-    float v2 = trueCutoff * bandPass;
+    float v2 = cutoffCoeff * bandPass;
     sample = v2 + avg2;
     avg2 = sample + v2;
     return sample;
@@ -49,10 +49,10 @@ float SVFFilter::advanceFilter(float sample)
 
 void SVFFilter::processSample(float& sample, int channel)
 {
-    float bandPass = (trueCutoff * (sample - state2[channel]) + state1[channel]) * trueDamping;
+    float bandPass = (cutoffCoeff * (sample - state2[channel]) + state1[channel]) * dampingCoeff;
     float v1 = bandPass - state1[channel];
     state1[channel] = bandPass + v1;
-    float v2 = trueCutoff * bandPass;
+    float v2 = cutoffCoeff * bandPass;
     sample = v2 + state2[channel];
     state2[channel] = sample + v2;
 }
@@ -90,13 +90,13 @@ void SVFFilter::processBlock(juce::AudioBuffer< float >& buffer)
 
 void SVFFilter::updateCutoff()
 {
-        float cutoffDigital = 2.0f * M_PI * cutoffFrequency;
-        float cutoffAnalog = (2.0f / sampleTime) * tan(cutoffDigital * sampleTime / 2.0f);
-        float g = (cutoffAnalog * sampleTime) / 2.0f;
-        trueCutoff = g / (1.0f + g);
+        float wd = 2.0f * M_PI * cutoffFrequency;
+        float wa = (2.0f / sampleTime) * tan(wd * sampleTime / 2.0f);
+        cutoffCoeff = (wa * sampleTime) / 2.0f;
+        updateDamping();
 }
 
 void SVFFilter::updateDamping()
 {
-    trueDamping = 1.0f / (1.0f + (2.0f * damping * trueCutoff) + (trueCutoff * trueCutoff));
+    dampingCoeff = 1.0f / (1.0f + (2.0f * damping * cutoffCoeff) + (cutoffCoeff * cutoffCoeff));
 }

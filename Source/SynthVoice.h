@@ -14,7 +14,6 @@
 #include "SynthSound.h"
 #include "Oscillator.h"
 #include "ADSRdata.h"
-#include "DSP/filter.h"
 #include "DSP/SVFFilter.h"
 #include <math.h>
 
@@ -40,7 +39,6 @@ private:
 	float cutoff;
 	adsrData adsr;
 	juce::AudioBuffer<float> synthBuffer;
-	filter filter;
 	SVFFilter svfFilter;
 	Oscillator osc;
 

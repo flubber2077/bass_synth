@@ -51,7 +51,6 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int numCh
     osc.reset();
     adsr.setSampleRate(sampleRate);
     osc.updateSamplerate(sampleRate);
-    filter.prepareToPlay(numChannels, sampleRate);
     svfFilter.prepareToPlay(numChannels, sampleRate);
 }
 
@@ -62,7 +61,6 @@ void SynthVoice::update(const float glide, const float fundType, const float fun
 
     adsr.updateADSR(attack, decay, sustain, release);
     gain = volume;
-    filter.updateCutoff(cutoffFreq);
     svfFilter.updateCutoff(cutoffFreq * (trackingRatio * keyboardTracking + 1.0f - keyboardTracking));
     svfFilter.updateResonance(resonance);
     osc.updateControls(fundType, fundGain, sawGain, subGain);
