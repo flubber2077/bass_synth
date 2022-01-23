@@ -166,15 +166,18 @@ void BasssynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
             auto& sawGain = *apvts.getRawParameterValue("SAWGAIN");
             auto& subGain = *apvts.getRawParameterValue("SUBGAIN");
             auto& fWaveshape = *apvts.getRawParameterValue("FWAVESHAPE");
+
+            auto& filterTracking = *apvts.getRawParameterValue("KEYBOARDTRACKING");
             auto& cutoffFreq = *apvts.getRawParameterValue("CUTOFF");
             auto& resonance = *apvts.getRawParameterValue("RESONANCE");
+
             auto& attack = *apvts.getRawParameterValue("ATTACK");
             auto& decay = *apvts.getRawParameterValue("DECAY");
             auto& sustain = *apvts.getRawParameterValue("SUSTAIN");
             auto& release = *apvts.getRawParameterValue("RELEASE");
             auto& gain = *apvts.getRawParameterValue("GAIN");
 
-            voice->update(glide, fWaveshape, fundGain, sawGain, subGain, cutoffFreq, resonance, attack, decay, sustain, release, gain);
+            voice->update(glide, fWaveshape, fundGain, sawGain, subGain, filterTracking, cutoffFreq, resonance, attack, decay, sustain, release, gain);
 
 
         }
@@ -243,6 +246,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout BasssynthAudioProcessor::cre
     params.push_back(std::make_unique<juce::AudioParameterFloat>("SAWGAIN", "Saw Level", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.001f, 0.3f }, 0.2f));
 
     //filter controls
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("KEYBOARDTRACKING", "Filter Keyboard Tracking", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.01f, 1.0f }, 0.5f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("CUTOFF", "Cutoff Frequency", juce::NormalisableRange<float> { 0.0f, 22000.0f, 1.0f, 0.3f }, 10000.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("RESONANCE", "Filter Resonance", juce::NormalisableRange<float> { 0.5f, 0.99f, 0.001f, 1.5f }, 0.707f));
 

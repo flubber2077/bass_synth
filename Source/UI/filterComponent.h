@@ -27,11 +27,13 @@ public:
 private:
     void setSliderParams(juce::Slider& slider);
 
+    juce::Slider keyboardTrackingSlider;
     juce::Slider cutoffSlider;
     juce::Slider resonanceSlider;
 
     using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
 
+    std::unique_ptr<SliderAttachment> keyboardTrackingAttachment;
     std::unique_ptr<SliderAttachment> cutoffAttachment;
     std::unique_ptr<SliderAttachment> resonanceAttachment;
 

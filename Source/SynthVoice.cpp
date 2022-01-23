@@ -17,7 +17,12 @@ bool SynthVoice::canPlaySound(juce::SynthesiserSound* sound)
 
 void SynthVoice::startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound, int currentPitchWheelPosition)
 {
-    osc.updateFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber) * (calculatePitchbend(currentPitchWheelPosition)));
+    float pitchbendRatio = calculatePitchbend(currentPitchWheelPosition);
+    
+    float frequency = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber) * pitchbendRatio;
+    osc.updateFrequency(frequency);
+    updateTrackingRatio(midiNoteNumber, currentPitchWheelPosition);
+    svfFilter.updateCutoff(cutoff * trackingRatio);
     adsr.noteOn();
 }
 
@@ -50,12 +55,15 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int numCh
     svfFilter.prepareToPlay(numChannels, sampleRate);
 }
 
-void SynthVoice::update(const float glide, const float fundType, const float fundGain, const float sawGain, const float subGain, const float cutoffFreq, const float resonance, const float attack, const float decay, const float sustain, const float release, const float volume)
+void SynthVoice::update(const float glide, const float fundType, const float fundGain, const float sawGain, const float subGain, const float keyboardTracking, const float cutoffFreq, const float resonance, const float attack, const float decay, const float sustain, const float release, const float volume)
 {
+    SynthVoice::keyboardTracking = keyboardTracking;
+    SynthVoice::cutoff = cutoffFreq;
+
     adsr.updateADSR(attack, decay, sustain, release);
     gain = volume;
     filter.updateCutoff(cutoffFreq);
-    svfFilter.updateCutoff(cutoffFreq);
+    svfFilter.updateCutoff(cutoffFreq * (trackingRatio * keyboardTracking + 1.0f - keyboardTracking));
     svfFilter.updateResonance(resonance);
     osc.updateControls(fundType, fundGain, sawGain, subGain);
     osc.updateGlide(glide);
@@ -96,4 +104,10 @@ float SynthVoice::calculatePitchbend(int pitchwheelPosition)
     float centBend = (pitchwheelPosition - 8192) * 200 / 8192.0f;
     //returns the needed ratio change, i.e. 1200 cents = 1 octave, returns 2 for twice the frequency
     return powf(2.0f, (centBend / 1200.0f));
+}
+
+void SynthVoice::updateTrackingRatio(int midiNoteNumber, int currentPitchWheelPosition)
+{
+    int middleCMIDI = 60;
+    trackingRatio = keyboardTracking * pow(2.0f, (midiNoteNumber - middleCMIDI) / 12.0f);
 }
