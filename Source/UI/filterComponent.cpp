@@ -15,8 +15,10 @@
 filterComponent::filterComponent(juce::AudioProcessorValueTreeState& apvts)
 {
     cutoffAttachment = std::make_unique<SliderAttachment>(apvts, "CUTOFF", cutoffSlider);
+    resonanceAttachment = std::make_unique<SliderAttachment>(apvts, "RESONANCE", resonanceSlider);
 
     setSliderParams(cutoffSlider);
+    setSliderParams(resonanceSlider);
 }
 
 filterComponent::~filterComponent()
@@ -37,13 +39,14 @@ void filterComponent::resized()
 {
     auto bounds = getLocalBounds().reduced(10);
     auto padding = 10;
-    auto numSliders = 1;
+    auto numSliders = 2;
     auto sliderWidth = bounds.getWidth() / numSliders - padding;
     auto sliderHeight = bounds.getHeight();
     auto sliderStartX = padding;
     auto sliderStartY = 0;
 
     cutoffSlider.setBounds(sliderStartX, sliderStartY, sliderWidth, sliderHeight);
+    resonanceSlider.setBounds(cutoffSlider.getRight() + padding, sliderStartY, sliderWidth, sliderHeight);
 }
 
 void filterComponent::setSliderParams(juce::Slider& slider)

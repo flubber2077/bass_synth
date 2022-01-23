@@ -67,13 +67,13 @@ void SVFFilter::updateCutoff(float frequency)
 {
     cutoffFrequency = frequency;
     updateCutoff();
-    updateResonance();
+    updateDamping();
 }
 
 void SVFFilter::updateResonance(float resonance)
 {
-    SVFFilter::damping = resonance;
-    updateResonance();
+    SVFFilter::damping = 1.0f - resonance;
+    updateDamping();
 }
 
 void SVFFilter::processBlock(juce::AudioBuffer< float >& buffer)
@@ -96,7 +96,7 @@ void SVFFilter::updateCutoff()
         trueCutoff = g / (1.0f + g);
 }
 
-void SVFFilter::updateResonance()
+void SVFFilter::updateDamping()
 {
-    trueDamping = 1.0f / (1.0f + (2.0f * trueDamping * trueCutoff) + (trueCutoff * trueCutoff));
+    trueDamping = 1.0f / (1.0f + (2.0f * damping * trueCutoff) + (trueCutoff * trueCutoff));
 }
