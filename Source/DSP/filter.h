@@ -31,7 +31,7 @@ public:
 private:
     void updateCutoff();
     float cutoffFrequency;
-    float trueCutoff;
+    float cutoffCoeff;
     float keyboardTracking;
     float sampleTime;
     float avg;

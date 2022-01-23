@@ -35,9 +35,9 @@ private:
     void updateCutoff();
     void updateDamping();
     float cutoffFrequency;
-    float trueCutoff;
+    float cutoffCoeff;
     float damping; //oscillates at 0, do not allow to become 0 unless clipping is implemented
-    float trueDamping;
+    float dampingCoeff;
     float keyboardTracking;
     float sampleTime;
     float avg1;
