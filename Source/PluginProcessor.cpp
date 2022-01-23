@@ -174,7 +174,7 @@ void BasssynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
             auto& release = *apvts.getRawParameterValue("RELEASE");
             auto& gain = *apvts.getRawParameterValue("GAIN");
 
-            voice->update(glide, fWaveshape, fundGain, sawGain, subGain, cutoffFreq, attack, decay, sustain, release, gain);
+            voice->update(glide, fWaveshape, fundGain, sawGain, subGain, cutoffFreq, resonance, attack, decay, sustain, release, gain);
 
 
         }
@@ -244,7 +244,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout BasssynthAudioProcessor::cre
 
     //filter controls
     params.push_back(std::make_unique<juce::AudioParameterFloat>("CUTOFF", "Cutoff Frequency", juce::NormalisableRange<float> { 0.0f, 22000.0f, 1.0f, 0.3f }, 10000.0f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("RESONANCE", "Filter Resonance", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.001f, 1.0f }, 0.5f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("RESONANCE", "Filter Resonance", juce::NormalisableRange<float> { 0.5f, 0.99f, 0.001f, 1.5f }, 0.707f));
 
     //adsr controls
     params.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.001f, 0.5f }, 0.01f));

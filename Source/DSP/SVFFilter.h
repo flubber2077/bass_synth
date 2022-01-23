@@ -33,7 +33,7 @@ public:
 
 private:
     void updateCutoff();
-    void updateResonance();
+    void updateDamping();
     float cutoffFrequency;
     float trueCutoff;
     float damping; //oscillates at 0, do not allow to become 0 unless clipping is implemented
