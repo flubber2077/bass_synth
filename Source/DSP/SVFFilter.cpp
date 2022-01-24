@@ -59,13 +59,21 @@ void SVFFilter::processSample(float& sample, int channel)
 
 void SVFFilter::updateSampleRate(float sampleRate)
 {
+    SVFFilter::sampleRate = sampleRate;
     sampleTime = 1.0f / sampleRate;
     updateCutoff();
 }
 
 void SVFFilter::updateCutoff(float frequency)
 {
-    cutoffFrequency = frequency;
+    //limits cutoff to slightly below nyqyuist frequency
+    float nyquistFreq = sampleRate / 2.0f;
+    if (frequency > nyquistFreq)
+    {
+        cutoffFrequency = nyquistFreq - 100.0f;
+    } else {
+        cutoffFrequency = frequency;
+    }
     updateCutoff();
     updateDamping();
 }

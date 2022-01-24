@@ -39,6 +39,7 @@ private:
     float damping; //oscillates at 0, do not allow to become 0 unless clipping is implemented
     float dampingCoeff;
     float keyboardTracking;
+    float sampleRate;
     float sampleTime;
     float avg1;
     float avg2;
