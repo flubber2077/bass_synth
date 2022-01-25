@@ -20,27 +20,27 @@ void Oscillator::updateSamplerate(float sampleRate)
 {
     Oscillator::sampleRate = sampleRate;
     updateDelta();
-    filter.updateSampleRate(sampleRate);
+    //filter.updateSampleRate(sampleRate);
 }
 
-void Oscillator::updateGlide(float glide)
-{
-    filter.updateCutoff(glide);
-}
+//void Oscillator::updateGlide(float glide)
+//{
+//    filter.updateCutoff(glide);
+//}
 
 void Oscillator::reset()
 {
     deltaPhase = 0;
     currentPhase = 0;
     subWave = 1.0f;
-    updateGlide(1.0f);
+    //updateGlide(1.0f);
 }
 
 
 float Oscillator::processSample()
 {
-    float currentFreq = filter.advanceFilter(frequency);
-    updateDelta(currentFreq);
+    //float currentFreq = filter.advanceFilter(frequency);
+    updateDelta(frequency);
 
     currentPhase += deltaPhase;
     float sawWave = 2.0f * currentPhase - 1.0f;

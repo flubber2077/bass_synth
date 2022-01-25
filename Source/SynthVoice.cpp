@@ -70,7 +70,7 @@ void SynthVoice::update(const float glide, const float fundType, const float fun
     svfFilter.updateResonance(resonance);
     osc.updateControls(fundType, fundGain, sawGain, subGain);
     osc.updateFrequency(currentFrequency);
-    osc.updateGlide(glide);
+    //osc.updateGlide(glide);
 }
 
 void SynthVoice::renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int startSample, int numSamples)

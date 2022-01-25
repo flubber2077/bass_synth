@@ -10,7 +10,7 @@
 
 #pragma once
 #include <JuceHeader.h>
-#include "DSP/filter.h"
+//#include "DSP/filter.h"
 //so far, don't need these but keeping for now as they could become necessary at any time
 //#define USE_MATH_DEFINES //annoyingly necessary for microsoft
 //#include <math.h>
@@ -20,7 +20,7 @@ public:
 
     void updateFrequency(float frequency);
     void updateSamplerate(float sampleRate);
-    void updateGlide(float glide);
+    //void updateGlide(float glide);
     void reset();
     float processSample();
     float fundamental(float phase);
@@ -40,5 +40,5 @@ private:
     void updateDelta() { deltaPhase = frequency / sampleRate; }
     void updateDelta(float frequency) { deltaPhase = frequency / sampleRate; }
 
-    filter filter;
+    //filter filter;
 };
