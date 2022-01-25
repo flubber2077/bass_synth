@@ -14,6 +14,7 @@
 #include "SynthSound.h"
 #include "Oscillator.h"
 #include "ADSRdata.h"
+#include"DSP/filter.h"
 #include "DSP/SVFFilter.h"
 #include <math.h>
 
@@ -31,15 +32,18 @@ public:
 	 
 private:
 	float calculatePitchbend(int pitchwheelPosition);
-	void updateTrackingRatio(int midiNoteNumber, int currentPitchWheelPosition);
+	void updateTrackingRatio();
 
 	float gain;
 	float keyboardTracking;
+    float targetFrequency;
+    float currentFrequency;
 	float trackingRatio;
 	float cutoff;
 	adsrData adsr;
 	juce::AudioBuffer<float> synthBuffer;
 	SVFFilter svfFilter;
 	Oscillator osc;
+    filter glideFilter;
 
 }; 

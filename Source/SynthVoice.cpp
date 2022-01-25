@@ -18,10 +18,11 @@ bool SynthVoice::canPlaySound(juce::SynthesiserSound* sound)
 void SynthVoice::startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound, int currentPitchWheelPosition)
 {
     float pitchbendRatio = calculatePitchbend(currentPitchWheelPosition);
+    targetFrequency = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+    currentFrequency = pitchbendRatio * glideFilter.advanceFilter(targetFrequency);
     
-    float frequency = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber) * pitchbendRatio;
-    osc.updateFrequency(frequency);
-    updateTrackingRatio(midiNoteNumber, currentPitchWheelPosition);
+    osc.updateFrequency(currentFrequency);
+    updateTrackingRatio();
     svfFilter.updateCutoff(cutoff * trackingRatio);
     adsr.noteOn();
 }
@@ -43,7 +44,7 @@ void SynthVoice::controllerMoved(int controllerNumber, int newControllerValue)
 
 void SynthVoice::pitchWheelMoved(int newPitchWheelValue)
 {
-    osc.updateFrequency(juce::MidiMessage::getMidiNoteInHertz(getCurrentlyPlayingNote()) * calculatePitchbend(newPitchWheelValue));
+    osc.updateFrequency(currentFrequency * calculatePitchbend(newPitchWheelValue));
 }
 
 void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int numChannels)
@@ -51,19 +52,24 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int numCh
     osc.reset();
     adsr.setSampleRate(sampleRate);
     osc.updateSamplerate(sampleRate);
+    glideFilter.prepareToPlay(0, sampleRate/samplesPerBlock);
     svfFilter.prepareToPlay(numChannels, sampleRate);
 }
 
 void SynthVoice::update(const float glide, const float fundType, const float fundGain, const float sawGain, const float subGain, const float keyboardTracking, const float cutoffFreq, const float resonance, const float attack, const float decay, const float sustain, const float release, const float volume)
 {
+    glideFilter.updateCutoff(glide);
     SynthVoice::keyboardTracking = keyboardTracking;
     SynthVoice::cutoff = cutoffFreq;
+    currentFrequency = glideFilter.advanceFilter(targetFrequency);
+    updateTrackingRatio();
 
     adsr.updateADSR(attack, decay, sustain, release);
     gain = volume;
-    svfFilter.updateCutoff(cutoffFreq * (trackingRatio * keyboardTracking + 1.0f - keyboardTracking));
+    svfFilter.updateCutoff(cutoffFreq * trackingRatio);
     svfFilter.updateResonance(resonance);
     osc.updateControls(fundType, fundGain, sawGain, subGain);
+    osc.updateFrequency(currentFrequency);
     osc.updateGlide(glide);
 }
 
@@ -98,14 +104,18 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int s
 float SynthVoice::calculatePitchbend(int pitchwheelPosition)
 {
     //using math.h, if replaced, delete math.h probably
-    //converts pitchWheel to cents, range -200 to 200, change the constant to a variable if a user selectable variable is needed.
-    float centBend = (pitchwheelPosition - 8192) * 200 / 8192.0f;
+    //converts pitchWheel to cents, range -200 to 200
+    int bendRange = 200; //in cents
+    //input is a 14 bit number, as per MIDI spec
+    float centBend = (pitchwheelPosition - 8192) * bendRange / 8192.0f; //8192 is halfway of the 14 bit number supplied
     //returns the needed ratio change, i.e. 1200 cents = 1 octave, returns 2 for twice the frequency
     return powf(2.0f, (centBend / 1200.0f));
 }
 
-void SynthVoice::updateTrackingRatio(int midiNoteNumber, int currentPitchWheelPosition)
+void SynthVoice::updateTrackingRatio()
 {
-    int middleCMIDI = 60;
-    trackingRatio = keyboardTracking * pow(2.0f, (midiNoteNumber - middleCMIDI) / 12.0f);
+    float referenceFrequency = 500.0f; //pivot point of tracking, should be made variable later
+    trackingRatio = (keyboardTracking * currentFrequency / referenceFrequency) + 1.0f -keyboardTracking;
+    //int middleCMIDI = 60;
+    //trackingRatio = keyboardTracking * pow(2.0f, (midiNoteNumber - middleCMIDI) / 12.0f);
 }
