@@ -31,13 +31,14 @@ public:
 	void renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int startSample, int numSamples) override;
 	 
 private:
-	float calculatePitchbend(int pitchwheelPosition);
+	void updatePitchbend(int pitchwheelPosition);
 	void updateTrackingRatio();
 
 	float gain;
 	float keyboardTracking;
     float targetFrequency;
     float currentFrequency;
+    float pitchbendRatio;
 	float trackingRatio;
 	float cutoff;
 	adsrData adsr;

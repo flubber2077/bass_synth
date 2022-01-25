@@ -17,13 +17,13 @@ bool SynthVoice::canPlaySound(juce::SynthesiserSound* sound)
 
 void SynthVoice::startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound, int currentPitchWheelPosition)
 {
-    float pitchbendRatio = calculatePitchbend(currentPitchWheelPosition);
+    updatePitchbend(currentPitchWheelPosition);
     targetFrequency = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
     currentFrequency = pitchbendRatio * glideFilter.advanceFilter(targetFrequency);
     
-    osc.updateFrequency(currentFrequency);
+    osc.updateFrequency(currentFrequency * pitchbendRatio);
     updateTrackingRatio();
-    svfFilter.updateCutoff(cutoff * trackingRatio);
+    svfFilter.updateCutoff(cutoff * trackingRatio * pitchbendRatio);
     adsr.noteOn();
 }
 
@@ -44,7 +44,9 @@ void SynthVoice::controllerMoved(int controllerNumber, int newControllerValue)
 
 void SynthVoice::pitchWheelMoved(int newPitchWheelValue)
 {
-    osc.updateFrequency(currentFrequency * calculatePitchbend(newPitchWheelValue));
+    updatePitchbend(newPitchWheelValue);
+    osc.updateFrequency(currentFrequency * pitchbendRatio);
+    svfFilter.updateCutoff(cutoff * trackingRatio * pitchbendRatio);
 }
 
 void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int numChannels)
@@ -70,7 +72,6 @@ void SynthVoice::update(const float glide, const float fundType, const float fun
     svfFilter.updateResonance(resonance);
     osc.updateControls(fundType, fundGain, sawGain, subGain);
     osc.updateFrequency(currentFrequency);
-    //osc.updateGlide(glide);
 }
 
 void SynthVoice::renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int startSample, int numSamples)
@@ -79,7 +80,7 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int s
     {
         return;
     }
-    //the set size and addfrom in this function make the plugin functionally monophonic
+    
     synthBuffer.setSize(outputBuffer.getNumChannels(), numSamples, false, false, true);
 
 
@@ -101,7 +102,7 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int s
     }
 }
  
-float SynthVoice::calculatePitchbend(int pitchwheelPosition)
+void SynthVoice::updatePitchbend(int pitchwheelPosition)
 {
     //using math.h, if replaced, delete math.h probably
     //converts pitchWheel to cents, range -200 to 200
@@ -109,13 +110,11 @@ float SynthVoice::calculatePitchbend(int pitchwheelPosition)
     //input is a 14 bit number, as per MIDI spec
     float centBend = (pitchwheelPosition - 8192) * bendRange / 8192.0f; //8192 is halfway of the 14 bit number supplied
     //returns the needed ratio change, i.e. 1200 cents = 1 octave, returns 2 for twice the frequency
-    return powf(2.0f, (centBend / 1200.0f));
+    pitchbendRatio = powf(2.0f, (centBend / 1200.0f));
 }
 
 void SynthVoice::updateTrackingRatio()
 {
-    float referenceFrequency = 500.0f; //pivot point of tracking, should be made variable later
+    float referenceFrequency = 300.0f; //pivot point of tracking, should be made variable later
     trackingRatio = (keyboardTracking * currentFrequency / referenceFrequency) + 1.0f -keyboardTracking;
-    //int middleCMIDI = 60;
-    //trackingRatio = keyboardTracking * pow(2.0f, (midiNoteNumber - middleCMIDI) / 12.0f);
 }
