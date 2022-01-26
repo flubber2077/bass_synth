@@ -78,5 +78,5 @@ void filter::updateCutoff()
     float wd = 2.0f * M_PI * cutoffFrequency;
     float prewarpCutoff = (2.0f / sampleTime) * tan(wd * sampleTime / 2.0f);
     float g = prewarpCutoff * sampleTime / 2.0f;
-    cutoffCoeff = g / (1 + g);
+    cutoffCoeff = g / (1.0f + g);
 }

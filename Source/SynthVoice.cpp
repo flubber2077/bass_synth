@@ -87,6 +87,7 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int s
     synthBuffer.clear();
 
     osc.processBlock(synthBuffer);
+    clipping.processBlock(synthBuffer);
     svfFilter.processBlock(synthBuffer);
     adsr.applyEnvelopeToBuffer(synthBuffer, 0, synthBuffer.getNumSamples());
     synthBuffer.applyGain(0, synthBuffer.getNumSamples(), gain);
