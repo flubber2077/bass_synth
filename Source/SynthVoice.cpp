@@ -67,7 +67,7 @@ void SynthVoice::update(const float glide, const float fundType, const float fun
     updateTrackingRatio();
 
     adsr.updateADSR(attack, decay, sustain, release);
-    gain = volume;
+    gain = powf(10.0f, volume/20.0f);//conversion from decibel back to ratio;
     svfFilter.updateCutoff(cutoffFreq * trackingRatio);
     svfFilter.updateResonance(resonance);
     osc.updateControls(fundType, fundGain, sawGain, subGain);
