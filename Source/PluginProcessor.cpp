@@ -253,8 +253,8 @@ juce::AudioProcessorValueTreeState::ParameterLayout BasssynthAudioProcessor::cre
     //adsr controls
     params.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.001f, 0.5f }, 0.01f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("DECAY", "Decay", juce::NormalisableRange<float> { 0.01f, 1.0f, 0.001f, 0.6f }, 0.1f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "Sustain", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.001f, 0.7f }, 0.3f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "Sustain", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.001f, 0.7f }, 0.5f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release", juce::NormalisableRange<float> { 0.0f, 2.0f, 0.001f, 0.5f }, 0.2f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("GAIN", "Volume", juce::NormalisableRange<float> { 0.01f, 1.0f, 0.001f, 0.5f }, 0.3f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("GAIN", "Volume", juce::NormalisableRange<float> { -60.0f, 10.0f, 0.1f, 0.7f }, -10.0f));
         return { params.begin(), params.end() };
 }
