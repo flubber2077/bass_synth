@@ -60,7 +60,7 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int numCh
 
 void SynthVoice::update(const float glide, const float fundType, const float fundGain, const float sawGain, const float subGain, const float keyboardTracking, const float cutoffFreq, const float resonance, const float attack, const float decay, const float sustain, const float release, const float volume)
 {
-    glideFilter.updateCutoff(glide);
+    glideFilter.updateTimeConstant(glide);
     SynthVoice::keyboardTracking = keyboardTracking;
     SynthVoice::cutoff = cutoffFreq;
     currentFrequency = glideFilter.advanceFilter(targetFrequency);

@@ -57,6 +57,13 @@ void filter::updateCutoff(float frequency)
 {
     cutoffFrequency = frequency;
     updateCutoff();
+    void updateTimeConstant(float seconds);
+}
+
+void filter::updateTimeConstant(float seconds)
+{
+    cutoffFrequency = 1.0f/(2.0f * M_PI * seconds);
+    updateCutoff();
 }
 
 void filter::processBlock(juce::AudioBuffer< float >& buffer)
