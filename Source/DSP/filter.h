@@ -26,6 +26,7 @@ public:
     void processSample(float &sample, int channel);
     void updateSampleRate(float sampleRate);
     void updateCutoff(float frequency);
+    void updateTimeConstant(float seconds);
     void processBlock(juce::AudioBuffer< float >& buffer);
 
 private:
