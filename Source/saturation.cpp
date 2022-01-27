@@ -10,17 +10,19 @@
 
 #include "saturation.h"
 
-void Saturation::processSample(float& sample)
+void Saturation::prepareToPlay(int numChannels)
 {
-    //finding out an appropriate function may be kind of hellish and tedious. might also want to just group them all here and comment them out.
-    //using for now as it should be much faster than other functions, as well as having a soft knee before I have some anti-aliasing scheme
-    //sample = sample/(1+fabsf(sample));
-    if (fabsf(sample) < 1.0f)
-    {
-        sample = 0.5f *(3.0f * sample - sample * sample * sample);
-    } else {
-        sample = copysignf(1.0f, sample);
-    }
+    lastSample.resize(numChannels);
+    lastAntiderivative.resize(numChannels);
+}
+
+void Saturation::processSample(float& sample, int channel)
+{
+    float currentAntiderivative = antiderivativeFunction(sample);
+    float output = (currentAntiderivative - lastAntiderivative[channel]) / (sample - lastSample[channel]);
+    lastAntiderivative[channel] = currentAntiderivative;
+    lastSample[channel] = sample;
+    sample = output;
 }
 
 void Saturation::processBlock(juce::AudioBuffer< float >& buffer)
@@ -30,7 +32,27 @@ void Saturation::processBlock(juce::AudioBuffer< float >& buffer)
         float* bufferPointer = buffer.getWritePointer(channel);
         for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
         {
-            processSample(bufferPointer[sample]);
+            processSample(bufferPointer[sample], channel);
         }
     }
 }
+
+float Saturation::antiderivativeFunction(float sample)
+{
+    return (logf(coshf(sample))); //antiderivative of tan(x)
+    //transcendentals are not exactly efficient functions
+    //but look how clean this is and how I can just move on with my life
+}
+
+//finding out an appropriate function may be kind of hellish and tedious. might also want to just group them all here and comment them out.
+
+//tan(x)
+
+//sample = sample/(1+fabsf(sample));
+
+/*if (fabsf(sample) < 1.0f)
+ {
+ sample = 0.5f *(3.0f * sample - sample * sample * sample);
+ } else {
+ sample = copysignf(1.0f, sample);
+ }*/

@@ -15,7 +15,13 @@
 class Saturation
 {
 public:
-    void processSample(float& sample);
+    void prepareToPlay(int channel);
+    void processSample(float& sample, int channel);
     void processBlock(juce::AudioBuffer< float >& buffer);
     
+    float antiderivativeFunction(float sample);
+    
+private:
+    std::vector<float> lastSample;
+    std::vector<float> lastAntiderivative;
 };
