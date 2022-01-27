@@ -222,7 +222,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout BasssynthAudioProcessor::cre
     //oscillator controls
     params.push_back(std::make_unique<juce::AudioParameterFloat>("GLIDE", "Glide", juce::NormalisableRange<float> { 0.2f, 50.0f, 0.001f, 0.2f }, 20.0f));
     params.push_back(std::make_unique<juce::AudioParameterBool>("FWAVESHAPE", "Sine Type", true));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("FUNDGAIN", "Sine Level", juce::NormalisableRange<float> { 0.0f, 2.0f, 0.001f, 0.5f }, 0.5f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("FUNDGAIN", "Sine Level", juce::NormalisableRange<float> { 0.001f, 2.0f, 0.001f, 0.5f }, 0.5f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("SUBGAIN", "Sub Level", juce::NormalisableRange<float> { 0.0f, 2.0f, 0.001f, 0.5f }, 0.5f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("SAWGAIN", "Saw Level", juce::NormalisableRange<float> { 0.0f, 2.0f, 0.001f, 0.5f }, 0.5f));
 
