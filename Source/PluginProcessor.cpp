@@ -145,16 +145,6 @@ void BasssynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
 {
     juce::ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
-    auto totalNumOutputChannels = getTotalNumOutputChannels();
-
-    // In case we have more outputs than inputs, this code clears any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    // This is here to avoid people getting screaming feedback
-    // when they first compile a plugin, but obviously you don't need to keep
-    // this code if your algorithm always overwrites all the output channels.
-    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-        buffer.clear (i, 0, buffer.getNumSamples());
 
     for (int i = 0; i < synth.getNumVoices(); i++)
     {
@@ -189,15 +179,6 @@ void BasssynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
         auto* channelData = buffer.getWritePointer (channel);
 
         // ..do something to the data...
-    }
-
-    for (int i = 0; i < synth.getNumVoices(); i++)
-    {
-        if (auto voice = dynamic_cast<juce::SynthesiserVoice*>(synth.getVoice(i)))
-        {
-            //controls
-        }
-
     }
 
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
@@ -241,14 +222,14 @@ juce::AudioProcessorValueTreeState::ParameterLayout BasssynthAudioProcessor::cre
     //oscillator controls
     params.push_back(std::make_unique<juce::AudioParameterFloat>("GLIDE", "Glide", juce::NormalisableRange<float> { 0.004f, 0.5f, 0.0001f, 0.6f }, 0.01f));
     params.push_back(std::make_unique<juce::AudioParameterBool>("FWAVESHAPE", "Sine Type", true));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("FUNDGAIN", "Sine Level", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.001f, 0.3f }, 0.2f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("SUBGAIN", "Sub Level", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.001f, 0.3f }, 0.2f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("SAWGAIN", "Saw Level", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.001f, 0.3f }, 0.2f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("FUNDGAIN", "Sine Level", juce::NormalisableRange<float> { 0.001f, 2.0f, 0.001f, 0.5f }, 0.5f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("SUBGAIN", "Sub Level", juce::NormalisableRange<float> { 0.0f, 2.0f, 0.001f, 0.5f }, 0.5f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("SAWGAIN", "Saw Level", juce::NormalisableRange<float> { 0.0f, 2.0f, 0.001f, 0.5f }, 0.5f));
 
     //filter controls
     params.push_back(std::make_unique<juce::AudioParameterFloat>("KEYBOARDTRACKING", "Filter Keyboard Tracking", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.01f, 1.0f }, 0.5f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("CUTOFF", "Cutoff Frequency", juce::NormalisableRange<float> { 0.0f, 22000.0f, 1.0f, 0.3f }, 10000.0f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("RESONANCE", "Filter Resonance", juce::NormalisableRange<float> { 0.0f, 0.99f, 0.001f, 2.0f }, 0.707f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("RESONANCE", "Filter Resonance", juce::NormalisableRange<float> { 0.0f, 0.99f, 0.001f, 2.0f }, 0.5f));
 
     //adsr controls
     params.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", juce::NormalisableRange<float> { 0.0f, 1.0f, 0.001f, 0.5f }, 0.01f));

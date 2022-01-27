@@ -10,6 +10,8 @@
         <FILE id="Jj8G6n" name="ADSRdata.h" compile="0" resource="0" file="Source/ADSRdata.h"/>
         <FILE id="yPlzgI" name="filter.cpp" compile="1" resource="0" file="Source/DSP/filter.cpp"/>
         <FILE id="e7H4SM" name="filter.h" compile="0" resource="0" file="Source/DSP/filter.h"/>
+        <FILE id="dfMG85" name="saturation.cpp" compile="1" resource="0" file="Source/saturation.cpp"/>
+        <FILE id="sP3dmf" name="saturation.h" compile="0" resource="0" file="Source/saturation.h"/>
         <FILE id="V2tWVo" name="SVFFilter.cpp" compile="1" resource="0" file="Source/DSP/SVFFilter.cpp"/>
         <FILE id="nNdIGG" name="SVFFilter.h" compile="0" resource="0" file="Source/DSP/SVFFilter.h"/>
       </GROUP>

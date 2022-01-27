@@ -17,6 +17,7 @@
 #include"DSP/filter.h"
 #include "DSP/SVFFilter.h"
 #include <math.h>
+#include "saturation.h"
 
 class SynthVoice : public juce::SynthesiserVoice
 {
@@ -46,5 +47,6 @@ private:
 	SVFFilter svfFilter;
 	Oscillator osc;
     filter glideFilter;
+    Saturation clipping;
 
 }; 

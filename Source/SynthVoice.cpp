@@ -56,6 +56,7 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int numCh
     osc.updateSamplerate(sampleRate);
     glideFilter.prepareToPlay(0, sampleRate/samplesPerBlock);
     svfFilter.prepareToPlay(numChannels, sampleRate);
+    clipping.prepareToPlay(numChannels);
 }
 
 void SynthVoice::update(const float glide, const float fundType, const float fundGain, const float sawGain, const float subGain, const float keyboardTracking, const float cutoffFreq, const float resonance, const float attack, const float decay, const float sustain, const float release, const float volume)
@@ -87,6 +88,7 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int s
     synthBuffer.clear();
 
     osc.processBlock(synthBuffer);
+    clipping.processBlock(synthBuffer);
     svfFilter.processBlock(synthBuffer);
     adsr.applyEnvelopeToBuffer(synthBuffer, 0, synthBuffer.getNumSamples());
     synthBuffer.applyGain(0, synthBuffer.getNumSamples(), gain);
