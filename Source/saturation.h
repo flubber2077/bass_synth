@@ -19,6 +19,7 @@ public:
     void processSample(float& sample, int channel);
     void processBlock(juce::AudioBuffer< float >& buffer);
     
+    float clip(float sample);
     float antiderivativeFunction(float sample);
     
 private:

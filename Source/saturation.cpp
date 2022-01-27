@@ -18,8 +18,20 @@ void Saturation::prepareToPlay(int numChannels)
 
 void Saturation::processSample(float& sample, int channel)
 {
+    float sampleDifference = sample - lastSample[channel];
     float currentAntiderivative = antiderivativeFunction(sample);
-    float output = (currentAntiderivative - lastAntiderivative[channel]) / (sample - lastSample[channel]);
+    float output = 0.0f;
+    
+    //if statement avoids divide by zero if the last sample is too close to the current
+    //the lesser than amount was chosen arbitrarily but works well so far.
+    //might be worth empirically figuring out what I can get away with
+    if (sampleDifference < 0.000001f)
+    {
+        output = (sample + lastSample[channel]) / 2.0f;
+    } else {
+        output = (currentAntiderivative - lastAntiderivative[channel]) / (sampleDifference);
+    }
+    
     lastAntiderivative[channel] = currentAntiderivative;
     lastSample[channel] = sample;
     sample = output;
@@ -35,6 +47,12 @@ void Saturation::processBlock(juce::AudioBuffer< float >& buffer)
             processSample(bufferPointer[sample], channel);
         }
     }
+}
+
+float Saturation::clip(float sample)
+{
+    //must match antiderivativeFunction
+    return tanh(sample);
 }
 
 float Saturation::antiderivativeFunction(float sample)
