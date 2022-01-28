@@ -13,8 +13,8 @@
 #include <JuceHeader.h>
 #include <cmath>
 #define _USE_MATH_DEFINES //annoyingly necessary for microsoft
-#include <math.h>
-//Zavalishin's 1 pole lowpass filter (direct form II trapezoidal filter)
+
+//Zavalishin's 1 pole lowpass filter (direct form II trapezoidal filter) from VA Filter Design
 
 class filter
 {

@@ -19,15 +19,14 @@ void Saturation::prepareToPlay(int numChannels)
 void Saturation::processSample(float& sample, int channel)
 {
     float sampleDifference = sample - lastSample[channel];
-    float currentAntiderivative = antiderivativeFunction(sample);
+    float currentAntiderivative = antiderivativeClip(sample);
     float output = 0.0f;
     
     //if statement avoids divide by zero if the last sample is too close to the current
     //the lesser than amount was chosen arbitrarily but works well so far.
-    //might be worth empirically figuring out what I can get away with
-    if (sampleDifference < 0.000001f)
+    if (sampleDifference < 0.00000001f)
     {
-        output = (sample + lastSample[channel]) / 2.0f;
+        output = clip((sample + lastSample[channel]) / 2.0f);
     } else {
         output = (currentAntiderivative - lastAntiderivative[channel]) / (sampleDifference);
     }
@@ -51,23 +50,19 @@ void Saturation::processBlock(juce::AudioBuffer< float >& buffer)
 
 float Saturation::clip(float sample)
 {
-    //must match antiderivativeFunction
+    //must match antiderivativeClip
     return tanh(sample);
 }
 
-float Saturation::antiderivativeFunction(float sample)
+float Saturation::antiderivativeClip(float sample)
 {
+    //must be the antiderivative of clip, preferably such that F(0) = 0
     return (logf(coshf(sample))); //antiderivative of tan(x)
-    //transcendentals are not exactly efficient functions
-    //but look how clean this is and how I can just move on with my life
 }
 
-//finding out an appropriate function may be kind of hellish and tedious. might also want to just group them all here and comment them out.
-
+//alternative clipping functions
 //tan(x)
-
 //sample = sample/(1+fabsf(sample));
-
 /*if (fabsf(sample) < 1.0f)
  {
  sample = 0.5f *(3.0f * sample - sample * sample * sample);
