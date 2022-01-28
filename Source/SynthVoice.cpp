@@ -82,10 +82,7 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int s
         return;
     }
     
-    synthBuffer.setSize(outputBuffer.getNumChannels(), numSamples, false, false, true);
-
-
-    synthBuffer.clear();
+    synthBuffer.setSize(1, numSamples, false, false, true);
 
     osc.processBlock(synthBuffer);
     clipping.processBlock(synthBuffer);
@@ -95,7 +92,7 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int s
 
     for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel)
     {
-        outputBuffer.addFrom(channel, startSample, synthBuffer, channel, 0 , numSamples);
+        outputBuffer.addFrom(channel, startSample, synthBuffer, 0, 0 , numSamples);
 
         if (! adsr.isActive())
         {
