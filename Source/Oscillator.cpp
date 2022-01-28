@@ -85,12 +85,11 @@ void Oscillator::updateControls(bool waveType, float fundGain, float sawOscGain,
 
 float Oscillator::fundamental(float phase)
 {
-    /*returns an approximation of sine from 0-1.
- Either a cubic approximation with sin(nx)/x^3, like a second interpolation of saw
- or a piecwise quadratic approximation with similar spectral response, but only odd harmonics*/
+    /*returns an approximation of sine from 0-1. Contains a pleasant amount of harmonics*/
     if (fundamentalType == 0)
     {
-        return -20.784f * phase * (phase - .5f) * (phase - 1.0f);
+        //return -20.784f * phase * (phase - .5f) * (phase - 1.0f);
+        return -22.555f * phase * (phase + 0.5f) * (phase - 0.5f) * (phase - 1.0f) * (phase - 1.5f);
     } else {
         if (phase < .5f)
         {

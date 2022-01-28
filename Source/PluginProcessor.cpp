@@ -143,8 +143,8 @@ bool BasssynthAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts
 
 void BasssynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
+    //Stops CPU from trying to process numbers too close to zero
     juce::ScopedNoDenormals noDenormals;
-    auto totalNumInputChannels  = getTotalNumInputChannels();
 
     for (int i = 0; i < synth.getNumVoices(); i++)
     {
@@ -171,14 +171,6 @@ void BasssynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
 
 
         }
-    }
-
-
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto* channelData = buffer.getWritePointer (channel);
-
-        // ..do something to the data...
     }
 
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
