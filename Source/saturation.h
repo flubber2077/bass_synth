@@ -12,6 +12,9 @@
 #include <JuceHeader.h>
 #include <cmath>
 
+//Implements an anti-aliasing clipping scheme from REDUCING THE ALIASING OF NONLINEAR WAVESHAPING USING
+//CONTINUOUS-TIME CONVOLUTION. Should be implemented with at least 2x oversampling over the audible range.
+
 class Saturation
 {
 public:
@@ -20,7 +23,7 @@ public:
     void processBlock(juce::AudioBuffer< float >& buffer);
     
     float clip(float sample);
-    float antiderivativeFunction(float sample);
+    float antiderivativeClip(float sample);
     
 private:
     std::vector<float> lastSample;

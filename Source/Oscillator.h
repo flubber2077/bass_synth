@@ -11,6 +11,8 @@
 #pragma once
 #include <JuceHeader.h>
 
+//A simple Numerically Controlled Oscillator, that natively mixes various waveshapes.
+
 class Oscillator {
 public:
 
@@ -34,5 +36,4 @@ private:
     float sawGain;
     float subGain;
     void updateDelta() { deltaPhase = frequency / sampleRate; }
-    void updateDelta(float frequency) { deltaPhase = frequency / sampleRate; }
 };
