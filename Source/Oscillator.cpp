@@ -89,7 +89,7 @@ float Oscillator::fundamental(float phase)
     if (fundamentalType == 0)
     {
         //return -20.784f * phase * (phase - .5f) * (phase - 1.0f);
-        return -22.555f * phase * (phase + 0.5f) * (phase - 0.5f) * (phase - 1.0f) * (phase - 1.5f);
+        return 22.555f * phase * (phase + 0.5f) * (phase - 0.5f) * (phase - 1.0f) * (phase - 1.5f);
     } else {
         if (phase < .5f)
         {
