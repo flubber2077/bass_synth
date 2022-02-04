@@ -30,6 +30,7 @@ public:
     void processBlock(juce::AudioBuffer< float >& buffer);
 
 private:
+    float twoPi = 6.28318530718f;
     void updateCutoff();
     float cutoffFrequency;
     float cutoffCoeff;

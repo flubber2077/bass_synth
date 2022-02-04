@@ -62,7 +62,7 @@ void filter::updateCutoff(float frequency)
 
 void filter::updateTimeConstant(float seconds)
 {
-    cutoffFrequency = 1.0f/(2.0f * M_PI * seconds);
+    cutoffFrequency = 1.0f/(twoPi * seconds);
     updateCutoff();
 }
 
@@ -82,7 +82,7 @@ void filter::updateCutoff()
 {
     //i am praying that compiling takes care of this. There is a lot of cleanup that could happen here
     //but then the variables would have a lot less meaning
-    float wd = 2.0f * M_PI * cutoffFrequency;
+    float wd = twoPi * cutoffFrequency;
     float prewarpCutoff = (2.0f / sampleTime) * tan(wd * sampleTime / 2.0f);
     float g = prewarpCutoff * sampleTime / 2.0f;
     cutoffCoeff = g / (1.0f + g);
