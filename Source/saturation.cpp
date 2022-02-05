@@ -23,7 +23,7 @@ void Saturation::processSample(float& sample, int channel)
     float output = 0.0f;
     
     //if statement avoids divide by zero if the last sample is too close to the current
-    //the lesser than amount was chosen arbitrarily but works well so far.
+    //the lesser than amount was chosen after some guess and check for the smallest number that maintains good SNR.
     if (fabs(sampleDifference) < 0.0001f)
     {
         output = clip((sample + lastSample[channel]) / 2.0f);

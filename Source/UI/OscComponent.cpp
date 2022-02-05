@@ -24,6 +24,11 @@ OscComponent::OscComponent(juce::AudioProcessorValueTreeState& apvts)
     setSliderParams(fundGainSlider);
     setSliderParams(sawGainSlider);
     setSliderParams(subGainSlider);
+
+    fundGainSlider.onValueChange = [this] {updateThumb(fundGainSlider); };
+    sawGainSlider.onValueChange = [this] {updateThumb(sawGainSlider); };
+    subGainSlider.onValueChange = [this] {updateThumb(subGainSlider); };
+
     glideSlider.setColour(juce::Slider::thumbColourId, juce::Colours::dimgrey);
 
     addAndMakeVisible(waveshapeButton);
@@ -60,7 +65,14 @@ void OscComponent::setSliderParams(juce::Slider& slider)
 {
     slider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
     slider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 25);
-    slider.setColour(juce::Slider::thumbColourId, juce::Colours::mediumseagreen);
+    updateThumb(slider);
 
     addAndMakeVisible(slider);
+}
+
+void OscComponent::updateThumb(juce::Slider& slider)
+{
+    auto lowColour = juce::Colours::mediumseagreen;
+    auto highColour = juce::Colours::orange;
+    slider.setColour(juce::Slider::thumbColourId, lowColour.interpolatedWith(highColour, slider.getValue() / 2.0f));
 }

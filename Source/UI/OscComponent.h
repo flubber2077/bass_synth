@@ -26,6 +26,7 @@ public:
 
 private:
     void setSliderParams(juce::Slider& slider);
+    void updateThumb(juce::Slider& slider);
 
     juce::Slider glideSlider;
     juce::Slider fundGainSlider;
