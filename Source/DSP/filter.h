@@ -11,8 +11,7 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include <cmath>
-#define _USE_MATH_DEFINES //annoyingly necessary for microsoft
+#include <vector>
 
 //Zavalishin's 1 pole lowpass filter (direct form II trapezoidal filter) from VA Filter Design
 
@@ -30,7 +29,7 @@ public:
     void processBlock(juce::AudioBuffer< float >& buffer);
 
 private:
-    float twoPi = 6.28318530718f;
+    const float twoPi = 6.28318530718f;
     void updateCutoff();
     float cutoffFrequency;
     float cutoffCoeff;
