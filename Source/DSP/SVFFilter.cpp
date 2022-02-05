@@ -66,16 +66,10 @@ void SVFFilter::updateSampleRate(float sampleRate)
 
 void SVFFilter::updateCutoff(float frequency)
 {
-    //limits cutoff to slightly below nyqyuist frequency
     float nyquistFreq = sampleRate / 2.0f;
-    if (frequency > nyquistFreq)
-    {
-        cutoffFrequency = nyquistFreq - 100.0f;
-    } else {
-        cutoffFrequency = frequency;
-    }
+    //limits cutoff to slightly below nyqyuist frequency
+    cutoffFrequency = std::min(frequency, nyquistFreq - 100.0f);
     updateCutoff();
-    updateDamping();
 }
 
 void SVFFilter::updateResonance(float resonance)
@@ -98,7 +92,7 @@ void SVFFilter::processBlock(juce::AudioBuffer< float >& buffer)
 
 void SVFFilter::updateCutoff()
 {
-        float wd = 2.0f * M_PI * cutoffFrequency;
+        float wd = twoPi * cutoffFrequency;
         float wa = (2.0f / sampleTime) * tan(wd * sampleTime / 2.0f);
         cutoffCoeff = (wa * sampleTime) / 2.0f;
         updateDamping();

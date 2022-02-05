@@ -13,9 +13,8 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include <cmath>
-#define _USE_MATH_DEFINES //annoyingly necessary for microsoft
-#include <math.h>
+#include <vector>
+
 //Zavalishin's SVF Filter from VA Filter Design
 
 class SVFFilter
@@ -42,6 +41,7 @@ private:
     float sampleTime;
     float avg1;
     float avg2;
+    const float twoPi = 6.28318530718f;
 
     //could make this into a single 2d vector, but i think that would be harder to read and not necessarily any faster
     std::vector<float> state1;
