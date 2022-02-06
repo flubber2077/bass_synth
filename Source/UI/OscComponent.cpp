@@ -73,6 +73,21 @@ void OscComponent::setSliderParams(juce::Slider& slider)
 void OscComponent::updateThumb(juce::Slider& slider)
 {
     auto lowColour = juce::Colours::mediumseagreen;
+    auto midColour = juce::Colours::yellow;
     auto highColour = juce::Colours::orange;
-    slider.setColour(juce::Slider::thumbColourId, lowColour.interpolatedWith(highColour, slider.getValue() / 2.0f));
+    auto value = slider.getValue();
+    juce::Colour colour1;
+    juce::Colour colour2;
+
+    if (value < 0.5f)
+    {
+        colour1 = lowColour;
+        colour2 = midColour;
+        value *= 2.0f;
+    } else {
+        colour1 = midColour;
+        colour2 = highColour;
+        value -= 0.5f;
+    }
+    slider.setColour(juce::Slider::thumbColourId, colour1.interpolatedWith(colour2, value));
 }
