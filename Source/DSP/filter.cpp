@@ -66,16 +66,12 @@ void filter::updateTimeConstant(float seconds)
     updateCutoff();
 }
 
-void filter::processBlock(juce::AudioBuffer< float >& buffer)
+void filter::processBlock(float* bufferPointer, int numSamples, int channel)
 {
-    for (int channel = 0; channel < buffer.getNumChannels(); ++channel)
-    {
-        float* bufferPointer = buffer.getWritePointer(channel);
-        for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
+        for (int sample = 0; sample < numSamples; ++sample)
         {
             processSample(bufferPointer[sample], channel);
         }
-    }
 }
 
 void filter::updateCutoff()

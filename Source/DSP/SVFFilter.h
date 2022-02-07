@@ -9,10 +9,6 @@
 */
 
 #pragma once
-
-#pragma once
-
-#include <JuceHeader.h>
 #include <vector>
 
 //Zavalishin's SVF Filter from VA Filter Design
@@ -28,7 +24,7 @@ public:
     void updateSampleRate(float sampleRate);
     void updateCutoff(float frequency);
     void updateResonance(float resonance);
-    void processBlock(juce::AudioBuffer< float >& buffer);
+    void processBlock(float* bufferPointer, int numSamples, int channel);
 
 private:
     void updateCutoff();

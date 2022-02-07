@@ -61,17 +61,11 @@ float Oscillator::processSample()
     return (fundamentalWave * fundamentalGain) + (subOut * subGain) + (sawWave * sawGain);
 }
 
-void Oscillator::processBlock(juce::AudioBuffer< float >& buffer)
+void Oscillator::processBlock(float* bufferPointer, int numSamples)
 {
-    float* bufferPointer = buffer.getWritePointer(0);
-    for (int sample = 0; sample < buffer.getNumSamples(); sample++)
+    for (int sample = 0; sample < numSamples; sample++)
     {
         bufferPointer[sample] = processSample();
-    }
-
-    for (int channel = 1; channel < buffer.getNumChannels(); channel++)
-    {
-        buffer.addFrom(channel, 0, buffer, 0, 0, buffer.getNumSamples());
     }
 }
 
