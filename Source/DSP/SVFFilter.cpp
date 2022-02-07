@@ -78,16 +78,12 @@ void SVFFilter::updateResonance(float resonance)
     updateDamping();
 }
 
-void SVFFilter::processBlock(juce::AudioBuffer< float >& buffer)
+void SVFFilter::processBlock(float* bufferPointer, int numSamples, int channel)
 {
-    for (int channel = 0; channel < buffer.getNumChannels(); ++channel)
-    {
-        float* bufferPointer = buffer.getWritePointer(channel);
-        for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
+        for (int sample = 0; sample < numSamples; ++sample)
         {
             processSample(bufferPointer[sample], channel);
         }
-    }
 }
 
 void SVFFilter::updateCutoff()

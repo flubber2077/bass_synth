@@ -9,7 +9,6 @@
 */
 
 #pragma once
-#include <JuceHeader.h>
 
 //A simple Numerically Controlled Oscillator, that natively mixes various waveshapes.
 
@@ -18,11 +17,10 @@ public:
 
     void updateFrequency(float frequency);
     void updateSamplerate(float sampleRate);
-    //void updateGlide(float glide);
     void reset();
     float processSample();
     float fundamental(float phase);
-    void processBlock(juce::AudioBuffer< float >& buffer);
+    void processBlock(float* bufferPointer, int numSamples);
     void updateControls(bool fundamentalType, float fundamentalGain, float sawGain, float subGain);
 
 private:

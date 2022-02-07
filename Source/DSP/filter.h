@@ -10,7 +10,6 @@
 
 #pragma once
 
-#include <JuceHeader.h>
 #include <vector>
 
 //Zavalishin's 1 pole lowpass filter (direct form II trapezoidal filter) from VA Filter Design
@@ -26,7 +25,7 @@ public:
     void updateSampleRate(float sampleRate);
     void updateCutoff(float frequency);
     void updateTimeConstant(float seconds);
-    void processBlock(juce::AudioBuffer< float >& buffer);
+    void processBlock(float* bufferPointer, int numSamples, int channel);
 
 private:
     const float twoPi = 6.28318530718f;
