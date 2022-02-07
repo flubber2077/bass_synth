@@ -97,7 +97,7 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int s
     adsr.applyEnvelopeToBuffer(controlBuffer, 0, numSamples);
     osc.processBlock(bufferPointer, numSamples);
     clipping.processBlock(bufferPointer, numSamples, mainChannel);
-    svfFilter.processBlock(bufferPointer, numSamples, mainChannel);
+    svfFilter.processBlock(bufferPointer, controlPointer, numSamples, mainChannel);
 
     for (int sample = 0; sample < numSamples; sample++)
     {

@@ -23,11 +23,14 @@ public:
     void processSample(float& sample, int channel);
     void updateSampleRate(float sampleRate);
     void updateCutoff(float frequency);
+    void adjustCutoff(float ratio);
     void updateResonance(float resonance);
     void processBlock(float* bufferPointer, int numSamples, int channel);
+    void processBlock(float* bufferPointer, float* controlPointer, int numSamples, int channel);
 
 private:
-    void updateCutoff();
+    void updateCoeff();
+    void updateCoeff(float frequency);
     void updateDamping();
     float cutoffFrequency;
     float cutoffCoeff;
@@ -43,4 +46,3 @@ private:
     std::vector<float> state1;
     std::vector<float> state2;
 };
-

@@ -23,7 +23,7 @@ void SVFFilter::reset()
     avg2 = 0.0f;
     cutoffFrequency = 300.0f;
     updateResonance(0.1f);
-    updateCutoff();
+    updateCoeff();
 }
 
 void SVFFilter::processSample(float& sample)
@@ -61,7 +61,7 @@ void SVFFilter::updateSampleRate(float sampleRate)
 {
     SVFFilter::sampleRate = sampleRate;
     sampleTime = 1.0f / sampleRate;
-    updateCutoff();
+    updateCoeff();
 }
 
 void SVFFilter::updateCutoff(float frequency)
@@ -69,7 +69,17 @@ void SVFFilter::updateCutoff(float frequency)
     float nyquistFreq = sampleRate / 2.0f;
     //limits cutoff to slightly below nyqyuist frequency
     cutoffFrequency = std::min(frequency, nyquistFreq - 100.0f);
-    updateCutoff();
+    updateCoeff();
+}
+
+void SVFFilter::adjustCutoff(float ratio)
+{
+    float frequency = cutoffFrequency * (ratio + 1.0f);
+
+    float nyquistFreq = sampleRate * 0.5f;
+    //limits cutoff to slightly below nyqyuist frequency
+    frequency = std::min(frequency, nyquistFreq - 100.0f);
+    updateCoeff(frequency);
 }
 
 void SVFFilter::updateResonance(float resonance)
@@ -86,12 +96,29 @@ void SVFFilter::processBlock(float* bufferPointer, int numSamples, int channel)
         }
 }
 
-void SVFFilter::updateCutoff()
+void SVFFilter::processBlock(float* bufferPointer, float* controlPointer, int numSamples, int channel)
+{
+    for (int sample = 0; sample < numSamples; ++sample)
+    {
+        adjustCutoff(controlPointer[sample]);
+        processSample(bufferPointer[sample], channel);
+    }
+}
+
+void SVFFilter::updateCoeff()
 {
         float wd = twoPi * cutoffFrequency;
         float wa = (2.0f / sampleTime) * tan(wd * sampleTime / 2.0f);
         cutoffCoeff = (wa * sampleTime) / 2.0f;
         updateDamping();
+}
+
+void SVFFilter::updateCoeff(float frequency)
+{
+    float wd = twoPi * frequency;
+    float wa = (2.0f / sampleTime) * tan(wd * sampleTime / 2.0f);
+    cutoffCoeff = (wa * sampleTime) / 2.0f;
+    updateDamping();
 }
 
 void SVFFilter::updateDamping()
