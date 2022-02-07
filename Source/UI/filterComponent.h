@@ -30,12 +30,14 @@ private:
     juce::Slider keyboardTrackingSlider;
     juce::Slider cutoffSlider;
     juce::Slider resonanceSlider;
+    juce::Slider filterEnvSlider;
 
     using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
 
     std::unique_ptr<SliderAttachment> keyboardTrackingAttachment;
     std::unique_ptr<SliderAttachment> cutoffAttachment;
     std::unique_ptr<SliderAttachment> resonanceAttachment;
+    std::unique_ptr<SliderAttachment> filterEnvAttachment;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (filterComponent)
 };

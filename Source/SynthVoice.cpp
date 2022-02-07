@@ -59,14 +59,14 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int numCh
     clipping.prepareToPlay(numChannels);
 }
 
-void SynthVoice::update(const float glide, const float fundType, const float fundGain, const float sawGain, const float subGain, const float keyboardTracking, const float cutoffFreq, const float resonance, const float attack, const float decay, const float sustain, const float release, const float volume)
+void SynthVoice::update(const float glide, const float fundType, const float fundGain, const float sawGain, const float subGain, const float filterEnvAmount, const float keyboardTracking, const float cutoffFreq, const float resonance, const float attack, const float decay, const float sustain, const float release, const float volume)
 {
     glideFilter.updateTimeConstant(glide);
     SynthVoice::keyboardTracking = keyboardTracking;
     SynthVoice::cutoff = cutoffFreq;
     currentFrequency = glideFilter.advanceFilter(targetFrequency);
     updateTrackingRatio();
-
+    SynthVoice::filterEnvAmount = filterEnvAmount;
     adsr.updateADSR(attack, decay, sustain, release);
     gain = powf(10.0f, volume/20.0f);//conversion from decibel back to ratio;
     svfFilter.updateCutoff(cutoffFreq * trackingRatio);
@@ -95,9 +95,10 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int s
         controlPointer[sample] = 1.0f;
     }
     adsr.applyEnvelopeToBuffer(controlBuffer, 0, numSamples);
+
     osc.processBlock(bufferPointer, numSamples);
     clipping.processBlock(bufferPointer, numSamples, mainChannel);
-    svfFilter.processBlock(bufferPointer, numSamples, mainChannel);
+    svfFilter.processBlock(bufferPointer, controlPointer, 2.0f * filterEnvAmount, numSamples, mainChannel);
 
     for (int sample = 0; sample < numSamples; sample++)
     {
