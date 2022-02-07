@@ -83,14 +83,27 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer< float >& outputBuffer, int s
     }
     
     synthBuffer.setSize(1, numSamples, false, false, true);
+    controlBuffer.setSize(1, numSamples, false, false, true);
+
 
     int mainChannel = 0;
     float* bufferPointer = synthBuffer.getWritePointer(mainChannel);
+    float* controlPointer = controlBuffer.getWritePointer(0);
 
+    for (int sample = 0; sample < numSamples; sample++)
+    {
+        controlPointer[sample] = 1.0f;
+    }
+    adsr.applyEnvelopeToBuffer(controlBuffer, 0, numSamples);
     osc.processBlock(bufferPointer, numSamples);
     clipping.processBlock(bufferPointer, numSamples, mainChannel);
     svfFilter.processBlock(bufferPointer, numSamples, mainChannel);
-    adsr.applyEnvelopeToBuffer(synthBuffer, 0, numSamples);
+
+    for (int sample = 0; sample < numSamples; sample++)
+    {
+       bufferPointer[sample] *= controlPointer[sample];
+    }
+
     synthBuffer.applyGain(0, numSamples, gain);
 
     for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel)
