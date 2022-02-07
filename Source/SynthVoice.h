@@ -44,6 +44,7 @@ private:
 	float cutoff;
 	adsrData adsr;
 	juce::AudioBuffer<float> synthBuffer;
+	juce::AudioBuffer<float> controlBuffer;
 	SVFFilter svfFilter;
 	Oscillator osc;
     filter glideFilter;
