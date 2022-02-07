@@ -96,11 +96,11 @@ void SVFFilter::processBlock(float* bufferPointer, int numSamples, int channel)
         }
 }
 
-void SVFFilter::processBlock(float* bufferPointer, float* controlPointer, int numSamples, int channel)
+void SVFFilter::processBlock(float* bufferPointer, float* controlPointer, float ratio, int numSamples, int channel)
 {
     for (int sample = 0; sample < numSamples; ++sample)
     {
-        adjustCutoff(controlPointer[sample]);
+        adjustCutoff(controlPointer[sample] * ratio + 1.0f);
         processSample(bufferPointer[sample], channel);
     }
 }

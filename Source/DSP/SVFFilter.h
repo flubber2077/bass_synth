@@ -26,7 +26,7 @@ public:
     void adjustCutoff(float ratio);
     void updateResonance(float resonance);
     void processBlock(float* bufferPointer, int numSamples, int channel);
-    void processBlock(float* bufferPointer, float* controlPointer, int numSamples, int channel);
+    void processBlock(float* bufferPointer, float* controlPointer, float ratio, int numSamples, int channel);
 
 private:
     void updateCoeff();
