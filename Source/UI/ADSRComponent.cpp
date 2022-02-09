@@ -35,17 +35,29 @@ ADSRComponent::~ADSRComponent()
 
 void ADSRComponent::paint (juce::Graphics& g)
 {
-    auto box = getLocalBounds().reduced(20);
+    auto box = getLocalBounds();
     box = box.withTop(box.getBottom() - 40);
+
+    const auto width = box.getWidth() / numSliders;
+    
+    g.setColour(juce::Colours::white);
+    g.setFont(16);
+
+    g.drawFittedText(TRANS("Attack"), box.removeFromLeft(width), juce::Justification::centred, 1);
+    g.drawFittedText(TRANS("Decay"), box.removeFromLeft(width), juce::Justification::centred, 1);
+    g.drawFittedText(TRANS("Sustain"), box.removeFromLeft(width), juce::Justification::centred, 1);
+    g.drawFittedText(TRANS("Release"), box.removeFromLeft(width), juce::Justification::centred, 1);
+    g.drawFittedText(TRANS("Volume"), box.removeFromLeft(width), juce::Justification::centred, 1);
 }
 
 void ADSRComponent::resized()
 {
     auto box = getLocalBounds();
+    box.removeFromBottom(40);
     //box.removeFromBottom(5);
 
     const int width = box.getWidth() / numSliders;
-    const int padding = 10;
+    const int padding = 5;
 
     attackSlider.setBounds(box.removeFromLeft (width).reduced (padding));
     decaySlider.setBounds(box.removeFromLeft(width).reduced(padding));

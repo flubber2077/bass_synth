@@ -32,21 +32,28 @@ filterComponent::~filterComponent()
 
 void filterComponent::paint (juce::Graphics& g)
 {
-    /* This demo code just fills the component's background and
-       draws some placeholder text to get you started.
+    auto box = getLocalBounds();
+    box = box.withTop(box.getBottom() - 40);
 
-       You should replace everything in this method with your own
-       drawing code..
-    */
+    const auto width = box.getWidth() / numSliders;
+
+    g.setColour(juce::Colours::white);
+    g.setFont(16);
+
+    g.drawFittedText(TRANS("KBD->Filter"), box.removeFromLeft(width), juce::Justification::centred, 1);
+    g.drawFittedText(TRANS("Env Amt"), box.removeFromLeft(width), juce::Justification::centred, 1);
+    g.drawFittedText(TRANS("Cutoff"), box.removeFromLeft(width), juce::Justification::centred, 1);
+    g.drawFittedText(TRANS("Resonance"), box.removeFromLeft(width), juce::Justification::centred, 1);
 }
 
 void filterComponent::resized()
 {
     auto box = getLocalBounds();
+    box.removeFromBottom(40);
     //box.removeFromBottom(5);
 
     const int width = box.getWidth() / numSliders;
-    const int padding = 10;
+    const int padding = 5;
 
     filterEnvSlider.setBounds(box.removeFromLeft(width).reduced(padding));
     keyboardTrackingSlider.setBounds(box.removeFromLeft(width).reduced(padding));
