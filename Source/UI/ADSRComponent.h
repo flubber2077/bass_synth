@@ -26,6 +26,7 @@ public:
 
 private:
     void setSliderParams(juce::Slider& slider);
+    int numSliders = 5;
 
     juce::Slider attackSlider;
     juce::Slider decaySlider;
