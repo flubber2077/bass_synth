@@ -42,18 +42,16 @@ void filterComponent::paint (juce::Graphics& g)
 
 void filterComponent::resized()
 {
-    auto bounds = getLocalBounds().reduced(10);
-    auto padding = 10;
-    auto numSliders = 4;
-    auto sliderWidth = bounds.getWidth() / numSliders - padding;
-    auto sliderHeight = bounds.getHeight();
-    auto sliderStartX = padding;
-    auto sliderStartY = 0;
+    auto box = getLocalBounds();
+    //box.removeFromBottom(5);
 
-    filterEnvSlider.setBounds(sliderStartX, sliderStartY, sliderWidth, sliderHeight);
-    keyboardTrackingSlider.setBounds(filterEnvSlider.getRight() + padding, sliderStartY, sliderWidth, sliderHeight);
-    cutoffSlider.setBounds(keyboardTrackingSlider.getRight() + padding, sliderStartY, sliderWidth, sliderHeight);
-    resonanceSlider.setBounds(cutoffSlider.getRight() + padding, sliderStartY, sliderWidth, sliderHeight);
+    const int width = box.getWidth() / numSliders;
+    const int padding = 10;
+
+    filterEnvSlider.setBounds(box.removeFromLeft(width).reduced(padding));
+    keyboardTrackingSlider.setBounds(box.removeFromLeft(width).reduced(padding));
+    cutoffSlider.setBounds(box.removeFromLeft(width).reduced(padding));
+    resonanceSlider.setBounds(box.removeFromLeft(width).reduced(padding));
 }
 
 void filterComponent::setSliderParams(juce::Slider& slider)

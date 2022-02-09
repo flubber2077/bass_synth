@@ -35,29 +35,23 @@ ADSRComponent::~ADSRComponent()
 
 void ADSRComponent::paint (juce::Graphics& g)
 {
-    /* This demo code just fills the component's background and
-       draws some placeholder text to get you started.
-
-       You should replace everything in this method with your own
-       drawing code..
-    */
+    auto box = getLocalBounds().reduced(20);
+    box = box.withTop(box.getBottom() - 40);
 }
 
 void ADSRComponent::resized()
 {
-    auto bounds = getLocalBounds().reduced(10);
-    auto padding = 10;
-    auto numSliders = 5;
-    auto sliderWidth = bounds.getWidth() / numSliders - padding;
-    auto sliderHeight = bounds.getHeight();
-    auto sliderStartX = padding;
-    auto sliderStartY = 0;
+    auto box = getLocalBounds();
+    //box.removeFromBottom(5);
 
-    attackSlider.setBounds(sliderStartX, sliderStartY, sliderWidth, sliderHeight);
-    decaySlider.setBounds(attackSlider.getRight() + padding, sliderStartY, sliderWidth, sliderHeight);
-    sustainSlider.setBounds(decaySlider.getRight() + padding, sliderStartY, sliderWidth, sliderHeight);
-    releaseSlider.setBounds(sustainSlider.getRight() + padding, sliderStartY, sliderWidth, sliderHeight);
-    gainSlider.setBounds(releaseSlider.getRight() + padding, sliderStartY, sliderWidth, sliderHeight);
+    const int width = box.getWidth() / numSliders;
+    const int padding = 10;
+
+    attackSlider.setBounds(box.removeFromLeft (width).reduced (padding));
+    decaySlider.setBounds(box.removeFromLeft(width).reduced(padding));
+    sustainSlider.setBounds(box.removeFromLeft(width).reduced(padding));
+    releaseSlider.setBounds(box.removeFromLeft(width).reduced(padding));
+    gainSlider.setBounds(box.removeFromLeft(width).reduced(padding));
 }
 
 void ADSRComponent::setSliderParams(juce::Slider& slider)

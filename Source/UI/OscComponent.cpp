@@ -46,7 +46,8 @@ void OscComponent::paint (juce::Graphics& g)
 
 void OscComponent::resized()
 {
-    auto bounds = getLocalBounds().reduced(10);
+    auto bounds = getLocalBounds();
+    bounds = bounds.withTop(bounds.getBottom() - 130);
     auto padding = 10;
     auto numSliders = 4;
     auto sliderWidth = bounds.getWidth() / numSliders - padding;

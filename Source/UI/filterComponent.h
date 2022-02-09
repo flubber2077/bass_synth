@@ -26,6 +26,7 @@ public:
 
 private:
     void setSliderParams(juce::Slider& slider);
+    int numSliders = 4;
 
     juce::Slider keyboardTrackingSlider;
     juce::Slider cutoffSlider;
