@@ -1,5 +1,7 @@
 # bass-synth
  
+ [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/C0C5AYNGR)
+ 
  Open source synthesizer built out of juce framework in order to learn C++/programming.
 
 Latest version is downloadable as a .vst3 from the releases section.
